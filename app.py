@@ -4,7 +4,7 @@ import current_loaction
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 def index():
     #보낼 현제 위치 데이터 (위도, 경도)
     value1, value2 = current_loaction.mylocations()

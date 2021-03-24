@@ -6,12 +6,11 @@
 </head>
 <body>
 	<div id="map" style="width:500px;height:400px;"></div>
-    var a = {{data1}}
-    var b = {{data2}}
+
     <p>
-        <button onclick="setCenter(a, b)">지도 중심좌표 이동시키기</button>
-        <button onclick="zoomIn()">지도레벨 - 1</button>
-        <button onclick="zoomOut()">지도레벨 + 1</button>
+        <button onclick="setCenter({{data1}},{{data2}} )">현위치</button>
+        <button onclick="zoomIn()">확대</button>
+        <button onclick="zoomOut()">축소</button>
         <span id="maplevel"></span>
     </p>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8b57e99d2686f4c3a48f76c342a5f3bd&libraries=LIBRARY"></script>
@@ -24,6 +23,7 @@
 		};
 
 		var map = new kakao.maps.Map(container, options);
+
 
         //지도 중심점 이동 함수
         function setCenter(latitude, longitude) {            
