@@ -6,8 +6,10 @@
 </head>
 <body>
 	<div id="map" style="width:500px;height:400px;"></div>
+    var a = {{data1}}
+    var b = {{data2}}
     <p>
-        <button onclick="setCenter({{data1}}, {{data2}})">지도 중심좌표 이동시키기</button>
+        <button onclick="setCenter(a, b)">지도 중심좌표 이동시키기</button>
         <button onclick="zoomIn()">지도레벨 - 1</button>
         <button onclick="zoomOut()">지도레벨 + 1</button>
         <span id="maplevel"></span>
