@@ -5,12 +5,17 @@
 	<title>다음 지도 API</title>
 </head>
 <body>
-	<div id="map" style="width:1280px;height:768px;"></div>
-    <p>
-        검색: <input type="search" name="keyword">
+    <p style="margin-top:-12px">
+        <em class="link">
+            <a href="javascript:void(0);" onclick="window.open('http://fiy.daum.net/fiy/map/CsGeneral.daum', '_blank', 'width=981, height=650')">
+                혹시 주소 결과가 잘못 나오는 경우에는 여기에 제보해주세요.
+            </a>
+        </em>
     </p>
 
-	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8b57e99d2686f4c3a48f76c342a5f3bd&libraries=LIBRARY"></script>
+	<div id="map" style="width:1280px;height:768px;"></div>
+
+	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8b57e99d2686f4c3a48f76c342a5f3bd&libraries=services"></script>
 	<script>
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		    mapOption = {
@@ -25,35 +30,35 @@
         //주소-좌표 변환 객체
         var geocoder = new kakao.maps.services.Geocoder();
 
-		// 지도 영역 변화 이벤트를 등록한다
-		kakao.maps.event.addListener(map, 'bounds_changed', function () {
-			var mapBounds = map.getBounds(),
-				message = '지도의 남서쪽, 북동쪽 영역좌표는 ' +
-							mapBounds.toString() + '입니다.';
+		// // 지도 영역 변화 이벤트를 등록한다
+		// kakao.maps.event.addListener(map, 'bounds_changed', function () {
+		// 	var mapBounds = map.getBounds(),
+		// 		message = '지도의 남서쪽, 북동쪽 영역좌표는 ' +
+		// 					mapBounds.toString() + '입니다.';
 
-			console.log(message);	
-		});
+		// 	console.log(message);	
+		// });
 
-		// 지도에 마커를 생성하고 표시한다
-		var marker = new kakao.maps.Marker({
-		    position: new kakao.maps.LatLng(37.56131, 126.99975), // 마커의 좌표
-		    map: map // 마커를 표시할 지도 객체
-		});
+		// // 지도에 마커를 생성하고 표시한다
+		// var marker = new kakao.maps.Marker({
+		//     position: new kakao.maps.LatLng(37.56131, 126.99975), // 마커의 좌표
+		//     map: map // 마커를 표시할 지도 객체
+		// });
 
-		// 마커 위에 표시할 인포윈도우를 생성한다
-		var infowindow = new kakao.maps.InfoWindow({
-		    content : '<div style="padding:5px;">인포윈도우 :D</div>' // 인포윈도우에 표시할 내용
-		});
+		// // 마커 위에 표시할 인포윈도우를 생성한다
+		// var infowindow = new kakao.maps.InfoWindow({
+		//     content : '<div style="padding:5px;">인포윈도우 :D</div>' // 인포윈도우에 표시할 내용
+		// });
 
-		// 인포윈도우를 지도에 표시한다
-		infowindow.open(map, marker);
+		// // 인포윈도우를 지도에 표시한다
+		// infowindow.open(map, marker);
 
-		// 마커에 클릭 이벤트를 등록한다 (우클릭 : rightclick)
-		kakao.maps.event.addListener(marker, 'click', function() {
-		    alert('마커를 클릭했습니다!');
-		});
+		// // 마커에 클릭 이벤트를 등록한다 (우클릭 : rightclick)
+		// kakao.maps.event.addListener(marker, 'click', function() {
+		//     alert('마커를 클릭했습니다!');
+		// });
 
-
+        
         geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function(result, status) {
 
             // 정상적으로 검색이 완료됐으면 
