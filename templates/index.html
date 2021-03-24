@@ -7,7 +7,7 @@
 <body>
 	<div id="map" style="width:500px;height:400px;"></div>
     <p>
-        <button onclick="setCenter(33.452613, 126.570888)">지도 중심좌표 이동시키기</button>
+        <button onclick="setCenter({{data1}}, {{data2}})">지도 중심좌표 이동시키기</button>
         <button onclick="zoomIn()">지도레벨 - 1</button>
         <button onclick="zoomOut()">지도레벨 + 1</button>
         <span id="maplevel"></span>
@@ -26,7 +26,7 @@
         //지도 중심점 이동 함수
         function setCenter(latitude, longitude) {            
             // 이동할 위도 경도 위치를 생성합니다 
-            var moveLatLon = new kakao.maps.LatLng({{data1}}, {{data2}});
+            var moveLatLon = new kakao.maps.LatLng(latitude, longitude);
             
             // 지도 중심을 이동 시킵니다
              map.setCenter(moveLatLon);
