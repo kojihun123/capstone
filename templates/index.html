@@ -6,7 +6,8 @@
 </head>
 <body>
 	<div id="map" style="width:500px;height:400px;"></div>
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8b57e99d2686f4c3a48f76c342a5f3bd"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8b57e99d2686f4c3a48f76c342a5f3bd&libraries=LIBRARY"></script>
+    
 	<script>
 		var container = document.getElementById('map');
 		var options = {
@@ -15,6 +16,16 @@
 		};
 
 		var map = new kakao.maps.Map(container, options);
+        setCenter(30, 125)
+
+        function setCenter(latitude, longitude) {            
+        // 이동할 위도 경도 위치를 생성합니다 
+        var moveLatLon = new kakao.maps.LatLng(33.452613, 126.570888);
+        
+        // 지도 중심을 이동 시킵니다
+        map.setCenter(moveLatLon);
+        }
+         
 	</script>
 </body>
 </html>
