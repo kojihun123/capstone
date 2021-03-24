@@ -20,13 +20,13 @@
 			center: new kakao.maps.LatLng(33.450701, 126.570667),
 			level: 3
 		};
-        
+
 		var map = new kakao.maps.Map(container, options);
 
         //지도 중심점 이동 함수
         function setCenter(latitude, longitude) {            
             // 이동할 위도 경도 위치를 생성합니다 
-            var moveLatLon = new kakao.maps.LatLng(latitude, longitude);
+            var moveLatLon = new kakao.maps.LatLng({{data1}}, {{data2}});
             
             // 지도 중심을 이동 시킵니다
              map.setCenter(moveLatLon);

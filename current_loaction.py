@@ -11,7 +11,11 @@ import time
 import requests
 
 def mylocation():
-    driver = webdriver.Chrome('C:\chromedriver.exe')
+
+    options = webdriver.ChromeOptions()
+    options.add_argument('headless')
+
+    driver = webdriver.Chrome('C:\chromedriver.exe', chrome_options=options)
     driver.get(url = "https://www.google.com/maps")
     driver.implicitly_wait(300)
 
@@ -32,6 +36,8 @@ def mylocation():
     #위도와 경도
     latitude = result.split('@')[1].split(',')[0]
     longtitude = result.split('@')[1].split(',')[1]
+
+    driver.close()
 
     return latitude, longtitude
 
