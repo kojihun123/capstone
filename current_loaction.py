@@ -40,6 +40,3 @@ def mylocations():
     driver.close()
 
     return latitude, longtitude
-
-if __name__ == "__main__":
-    pass
