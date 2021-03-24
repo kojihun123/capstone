@@ -40,6 +40,5 @@ def mylocations():
     latitude = result.split('@')[1].split(',')[0]
     longtitude = result.split('@')[1].split(',')[1]
 
-    driver.close()
 
     return latitude, longtitude

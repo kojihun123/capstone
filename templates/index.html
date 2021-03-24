@@ -1,54 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8"/>
-	<title>Kakao 지도 시작하기</title>
+	<meta charset="utf-8">
+	<title>다음 지도 API</title>
 </head>
 <body>
-	<div id="map" style="width:500px;height:400px;"></div>
+	<div id="map" style="width:1280px;height:768px;"></div>
 
-    <p>
-        <button onclick="setCenter({{data1}},{{data2}} )">현위치</button>
-        <button onclick="zoomIn()">확대</button>
-        <button onclick="zoomOut()">축소</button>
-        <span id="maplevel"></span>
-    </p>
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8b57e99d2686f4c3a48f76c342a5f3bd&libraries=LIBRARY"></script>
-    
+	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8b57e99d2686f4c3a48f76c342a5f3bd&libraries=LIBRARY"></script>
 	<script>
-		var container = document.getElementById('map');
-		var options = {
-			center: new kakao.maps.LatLng(33.450701, 126.570667),
-			level: 3
-		};
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		    mapOption = {
+		        center: new kakao.maps.LatLng(37.56345, 126.98421), // 지도의 중심좌표
+		        level: 3, // 지도의 확대 레벨
+		        mapTypeId : kakao.maps.MapTypeId.ROADMAP // 지도종류
+		    }; 
 
-		var map = new kakao.maps.Map(container, options);
+		// 지도를 생성한다 
+		var map = new kakao.maps.Map(mapContainer, mapOption); 
 
+		// 지도 영역 변화 이벤트를 등록한다
+		kakao.maps.event.addListener(map, 'bounds_changed', function () {
+			var mapBounds = map.getBounds(),
+				message = '지도의 남서쪽, 북동쪽 영역좌표는 ' +
+							mapBounds.toString() + '입니다.';
 
-        //지도 중심점 이동 함수
-        function setCenter(latitude, longitude) {            
-            // 이동할 위도 경도 위치를 생성합니다 
-            var moveLatLon = new kakao.maps.LatLng(latitude, longitude);
-            
-            // 지도 중심을 이동 시킵니다
-             map.setCenter(moveLatLon);
-        }
+			console.log(message);	
+		});
 
-        function zoomIn() {        
-            // 현재 지도의 레벨을 얻어옵니다
-            var level = map.getLevel();
-            
-            // 지도를 1레벨 내립니다 (지도가 확대됩니다)
-            map.setLevel(level - 1);
-        }    
+		// 지도에 마커를 생성하고 표시한다
+		var marker = new kakao.maps.Marker({
+		    position: new kakao.maps.LatLng(37.56131, 126.99975), // 마커의 좌표
+		    map: map // 마커를 표시할 지도 객체
+		});
 
-        function zoomOut() {    
-            // 현재 지도의 레벨을 얻어옵니다
-            var level = map.getLevel(); 
-            
-            // 지도를 1레벨 올립니다 (지도가 축소됩니다)
-            map.setLevel(level + 1);
-        }    
+		// 마커 위에 표시할 인포윈도우를 생성한다
+		var infowindow = new kakao.maps.InfoWindow({
+		    content : '<div style="padding:5px;">인포윈도우 :D</div>' // 인포윈도우에 표시할 내용
+		});
+
+		// 인포윈도우를 지도에 표시한다
+		infowindow.open(map, marker);
+
+		// 마커에 클릭 이벤트를 등록한다 (우클릭 : rightclick)
+		kakao.maps.event.addListener(marker, 'click', function() {
+		    alert('마커를 클릭했습니다!');
+		});
 
 	</script>
 </body>
