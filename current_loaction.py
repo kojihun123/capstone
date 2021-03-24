@@ -10,7 +10,7 @@ from selenium.webdriver.common.keys import Keys
 import time
 
 
-def mylocation():
+def mylocations():
 
     options = webdriver.ChromeOptions()
     options.add_argument('headless')
@@ -41,3 +41,5 @@ def mylocation():
 
     return latitude, longtitude
 
+if __name__ == "__main__":
+    pass

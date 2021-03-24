@@ -8,7 +8,7 @@ app = Flask(__name__)
 def index():
     
     #보낼 현제 위치 데이터 (위도, 경도)
-    value = current_loaction.mylocation()
+    value = current_loaction.mylocations()
 
     return render_template('index.html', data1=value[0], data2=value[1])
 
