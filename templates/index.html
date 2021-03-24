@@ -6,14 +6,7 @@
     <link rel="stylesheet" href="{{url_for('static',filename='index.css')}}">
 </head>
 <body>
-    <p style="margin-top:-12px">
-        <em class="link">
-            <a href="javascript:void(0);" onclick="window.open('http://fiy.daum.net/fiy/map/CsGeneral.daum', '_blank', 'width=981, height=650')">
-                혹시 주소 결과가 잘못 나오는 경우에는 여기에 제보해주세요.
-            </a>
-        </em>
-    </p>
-
+    
     <div id="searchbox">
         <input tpye="text" id="tbox" placeholder="주소 입력">
         <button type="button" id="tbutton" onclick="adSearch()">검색</button>
@@ -37,14 +30,14 @@
         //주소-좌표 변환 객체
         var geocoder = new kakao.maps.services.Geocoder();
 
-		// // 지도 영역 변화 이벤트를 등록한다
-		// kakao.maps.event.addListener(map, 'bounds_changed', function () {
-		// 	var mapBounds = map.getBounds(),
-		// 		message = '지도의 남서쪽, 북동쪽 영역좌표는 ' +
-		// 					mapBounds.toString() + '입니다.';
+		// 지도 영역 변화 이벤트를 등록한다
+		kakao.maps.event.addListener(map, 'bounds_changed', function () {
+			var mapBounds = map.getBounds(),
+				message = '지도의 남서쪽, 북동쪽 영역좌표는 ' +
+							mapBounds.toString() + '입니다.';
 
-		// 	console.log(message);	
-		// });
+			console.log(message);	
+		});
 
 		// // 지도에 마커를 생성하고 표시한다
 		// var marker = new kakao.maps.Marker({
