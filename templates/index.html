@@ -7,6 +7,7 @@
 <body>
 	<div id="map" style="width:500px;height:400px;"></div>
     <p>
+        <button onclick="setCenter(33.452613, 126.570888)">지도 중심좌표 이동시키기</button>
         <button onclick="panTo(139.6917064, 35.6894875)">지도 중심좌표 이동시키기</button> 
     </p>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8b57e99d2686f4c3a48f76c342a5f3bd&libraries=LIBRARY"></script>
@@ -19,6 +20,14 @@
 		};
 
 		var map = new kakao.maps.Map(container, options);
+
+        function setCenter(latitude, longitude) {            
+            // 이동할 위도 경도 위치를 생성합니다 
+            var moveLatLon = new kakao.maps.LatLng(latitude, longitude);
+            
+            // 지도 중심을 이동 시킵니다
+             map.setCenter(moveLatLon);
+        }
 
         function panTo(latitude, longitude) {
         // 이동할 위도 경도 위치를 생성합니다 
