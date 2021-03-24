@@ -15,10 +15,6 @@ def mylocations():
     options = webdriver.ChromeOptions()
     options.add_argument('headless')
 
-    chrome_options.binary_location = GOOGLE_CHROM_BIN
-    chrome_options.add_argument('--disable-gpu')
-    chrome_options.add_argument('--no-sandbox')
-
     driver = webdriver.Chrome('C:\chromedriver.exe', chrome_options=options)
     driver.get(url = "https://www.google.com/maps")
     driver.implicitly_wait(300)
