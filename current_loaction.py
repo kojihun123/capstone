@@ -12,11 +12,10 @@ import time
 
 def mylocations():
 
-    # options = webdriver.ChromeOptions()
-    # options.add_argument('headless')
-    #, chrome_options=options
+    options = webdriver.ChromeOptions()
+    options.add_argument('headless')
 
-    driver = webdriver.Chrome('C:\chromedriver.exe')
+    driver = webdriver.Chrome('C:\chromedriver.exe', chrome_options=options)
     driver.get(url = "https://www.google.com/maps")
     driver.implicitly_wait(300)
 
