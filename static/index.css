@@ -27,3 +27,8 @@ input:-moz-placeholder{color: #a8a8a8;}
     float:right;
     color:#ffffff;
 }
+
+#map {
+    width: 80%;
+    height: 80%;
+}
