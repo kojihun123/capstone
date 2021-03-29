@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>다음 지도 API</title>
+	<title>경기지역화폐가맹점 검색</title>
     <link rel="stylesheet" href="{{url_for('static',filename='index.css')}}">
 </head>
 <body>
@@ -11,12 +11,6 @@
         <input tpye="text" id="tbox" placeholder="주소 입력">
         <button type="button" id="tbutton" onclick="adSearch()">검색</button>
     </div>
-
-	<label class="switch">
-		<input type="checkbox" onlick="toggle_Markers()">
-		<span class="slider round"></span>
-	</label>
-
 
 	<div id="map" style="width:1024px;height:768px;"></div>
 
@@ -48,26 +42,17 @@
 		//지도 확대 축소 제어 객체
 		var zoomControl = new kakao.maps.ZoomControl();
 
-		//마커 토글 스위치
-		var toggle = true;
 
 
 		// 지도 확대 또는 축소시 이벤트 (해당범위(중심+경계로) 다시 검색)
 		kakao.maps.event.addListener(map, 'zoom_changed', function() {        
-
-			setMarkers();
-
 			keySearch();
 			
 		});
 
 		// 마우스 드래그로 지도 이동이 완료되었을때 (해당범위(중심+경계로) 다시 검색)
 		kakao.maps.event.addListener(map, 'dragend', function() {        
-			
-			setMarkers();
-
 			keySearch();
-			
 		});
 
 
@@ -78,9 +63,6 @@
 
                     // 정상적으로 검색이 완료됐으면 
                     if (status === kakao.maps.services.Status.OK) {
-						
-						//마커초기화
-						setMarkers();
                         var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
                         // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
@@ -92,7 +74,10 @@
                 });  
         } 
 
-		//키워드 검색 완료시 호출되는 콜백함수
+
+
+
+		//키워드 검색 완료시 호출되는 콜백함수 (검색한것들 마커 적용)
 		function placesSearchCB (data, status, pagination) {
 			if (status === kakao.maps.services.Status.OK) {
 
@@ -103,7 +88,7 @@
 		}
 
 
-		// 지도에 마커를 표시하는 함수입니다
+		// 지도에 마커를 표시하고 리스너 추가 및 배열에 push하는 함수
 		function displayMarker(place) {
 			
 			// 마커를 생성하고 지도에 표시합니다
@@ -129,21 +114,10 @@
 			}            
 		}
 
-		// "마커 보이기/감추기" 기능
-		function toggle_Markers() {
-			if (toggle_Markers === true) {
-				setMarkers(null);
-				toggle_Markers = false;
-			} 
-
-			else{
-				setMarkers(map);
-				toggle_Markers = true;
-			}
-		}
-
-		//키워드 서치 함수 서치내용은 고정
+		//키워드 서치 함수 (마커 초기화, 인포윈도우 종료, 키워드 서치 실행)
 		function keySearch(){
+			setMarkers();
+			infowindow.close();
 			ps.keywordSearch('경기지역화폐가맹점', placesSearchCB, {
 				location: map.getCenter(),
 				bounds: map.getBounds()
