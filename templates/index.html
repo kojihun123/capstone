@@ -40,37 +40,27 @@
 		// 장소 검색 객체
 		var ps = new kakao.maps.services.Places(map);
 
+		//지도 확대 축소 제어 객체
+		var zoomControl = new kakao.maps.ZoomControl();
 
-		// 마우스 드래그로 지도 이동이 완료되었을  이벤트를 등록
+
+		// 지도 확대 또는 축소시 이벤트 (해당범위(중심+경계로) 다시 검색)
+		kakao.maps.event.addListener(map, 'zoom_changed', function() {        
+
+			setMarkers();
+
+			keySearch();
+			
+		});
+
+		// 마우스 드래그로 지도 이동이 완료되었을때 (해당범위(중심+경계로) 다시 검색)
 		kakao.maps.event.addListener(map, 'dragend', function() {        
 			
 			setMarkers();
 
-			ps.keywordSearch('경기지역화폐가맹점', placesSearchCB, {
-				location: map.getCenter(),
-				bounds: map.getBounds()
-			});
+			keySearch();
 			
 		});
-
-		// // 지도에 마커를 생성하고 표시한다
-		// var marker = new kakao.maps.Marker({
-		//     position: new kakao.maps.LatLng(37.56131, 126.99975), // 마커의 좌표
-		//     map: map // 마커를 표시할 지도 객체
-		// });
-
-		// // 마커 위에 표시할 인포윈도우를 생성한다
-		// var infowindow = new kakao.maps.InfoWindow({
-		//     content : '<div style="padding:5px;">인포윈도우 :D</div>' // 인포윈도우에 표시할 내용
-		// });
-
-		// // 인포윈도우를 지도에 표시한다
-		// infowindow.open(map, marker);
-
-		// // 마커에 클릭 이벤트를 등록한다 (우클릭 : rightclick)
-		// kakao.maps.event.addListener(marker, 'click', function() {
-		//     alert('마커를 클릭했습니다!');
-		// });
 
 
         //주소를 통한 검색으로 화면을 전환시켜주는 함수
@@ -80,11 +70,14 @@
 
                     // 정상적으로 검색이 완료됐으면 
                     if (status === kakao.maps.services.Status.OK) {
-
+						
+						//마커초기화
+						setMarkers();
                         var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
                         // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
                         map.setCenter(coords);
+						map.setLevel(3);
 						
 						// 키워드로 장소를 검색합니다
 						ps.keywordSearch('경기지역화폐가맹점', placesSearchCB, {
@@ -130,6 +123,14 @@
 			for (var i = 0; i < markers.length; i++) {
 				markers[i].setMap(null);
 			}            
+		}
+
+		//키워드 서치 함수 서치내용은 고정
+		function keySearch(){
+			ps.keywordSearch('경기지역화폐가맹점', placesSearchCB, {
+				location: map.getCenter(),
+				bounds: map.getBounds()
+			});
 		}
 
 
