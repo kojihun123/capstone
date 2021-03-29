@@ -18,6 +18,9 @@
 	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8b57e99d2686f4c3a48f76c342a5f3bd&libraries=services"></script>
 	<script>
 
+		//마커 객체 보유 배열
+		var markers = [];
+
 		// 마커를 클릭하면 장소명을 표출할 인포윈도우
 		var infowindow = new kakao.maps.InfoWindow({zIndex:1});
 
@@ -37,14 +40,17 @@
 		// 장소 검색 객체
 		var ps = new kakao.maps.services.Places(map);
 
-		// // 지도 영역 변화 이벤트를 등록한다
-		// kakao.maps.event.addListener(map, 'bounds_changed', function () {
-		// 	var mapBounds = map.getBounds(),
-		// 		message = '지도의 남서쪽, 북동쪽 영역좌표는 ' +
-		// 					mapBounds.toString() + '입니다.';
+		// 지도 영역 변화 이벤트를 등록한다
+		kakao.maps.event.addListener(map, 'bounds_changed', function () {
 
-		// 	console.log(message);	
-		// });
+			//마커 삭제
+			setMarkers();
+
+			ps.keywordSearch('경기지역화폐가맹점', placesSearchCB, {
+				location: map.getCenter(),
+				bounds: map.getBounds()
+			});
+		});
 
 		// // 지도에 마커를 생성하고 표시한다
 		// var marker = new kakao.maps.Marker({
@@ -122,6 +128,15 @@
 				infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
 				infowindow.open(map, marker);
 			});
+
+			markers.push(marker);
+		}
+
+		// 배열에 추가된 마커들을 지도에서 삭제하는 함수
+		function setMarkers() {
+			for (var i = 0; i < markers.length; i++) {
+				markers[i].setMap(null);
+			}            
 		}
 
 
