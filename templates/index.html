@@ -30,12 +30,12 @@
 
 		// 지도를 생성
 		var map = new kakao.maps.Map(mapContainer, mapOption); 
-        
+
         //주소-좌표 변환 객체
         var geocoder = new kakao.maps.services.Geocoder();
 
 		// 장소 검색 객체
-		var ps = new kakao.maps.services.Places(map);
+		var ps = new kakao.maps.services.Places();
 
 		// // 지도 영역 변화 이벤트를 등록한다
 		// kakao.maps.event.addListener(map, 'bounds_changed', function () {
@@ -80,7 +80,10 @@
                         map.setCenter(coords);
 						
 						// 키워드로 장소를 검색합니다
-						ps.keywordSearch('경기지역화폐가맹점', placesSearchCB);
+						ps.keywordSearch('경기지역화폐가맹점', placesSearchCB, {
+							location: center,
+							sort: kakao.maps.services.SortBy.DISTANCE
+						});
                     } 
                 });  
         } 
