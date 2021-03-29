@@ -31,6 +31,9 @@
 		// 지도를 생성
 		var map = new kakao.maps.Map(mapContainer, mapOption); 
 
+		var center = map.getCenter();
+
+
         //주소-좌표 변환 객체
         var geocoder = new kakao.maps.services.Geocoder();
 
