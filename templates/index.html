@@ -40,16 +40,17 @@
 		// 장소 검색 객체
 		var ps = new kakao.maps.services.Places(map);
 
-		// 지도 영역 변화 이벤트를 등록한다
-		kakao.maps.event.addListener(map, 'bounds_changed', function () {
 
-			//마커 삭제
+		// 마우스 드래그로 지도 이동이 완료되었을때 이벤트를 등록
+		kakao.maps.event.addListener(map, 'dragend', function() {        
+			
 			setMarkers();
 
 			ps.keywordSearch('경기지역화폐가맹점', placesSearchCB, {
 				location: map.getCenter(),
 				bounds: map.getBounds()
 			});
+			
 		});
 
 		// // 지도에 마커를 생성하고 표시한다
