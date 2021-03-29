@@ -41,7 +41,7 @@
 		var ps = new kakao.maps.services.Places(map);
 
 
-		// 마우스 드래그로 지도 이동이 완료되었을때 이벤트를 등록
+		// 마우스 드래그로 지도 이동이 완료되었을  이벤트를 등록
 		kakao.maps.event.addListener(map, 'dragend', function() {        
 			
 			setMarkers();
@@ -98,9 +98,9 @@
 		//키워드 검색 완료시 호출되는 콜백함수
 		function placesSearchCB (data, status, pagination) {
 			if (status === kakao.maps.services.Status.OK) {
+
 				for (var i=0; i<data.length; i++) {
 					displayMarker(data[i]);    
-					bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
 				}       
 			} 
 		}
@@ -130,7 +130,6 @@
 			for (var i = 0; i < markers.length; i++) {
 				markers[i].setMap(null);
 			}            
-			markers.
 		}
 
 
