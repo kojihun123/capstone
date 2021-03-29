@@ -10,6 +10,10 @@
     <div id="searchbox">
         <input tpye="text" id="tbox" placeholder="주소 입력">
         <button type="button" id="tbutton" onclick="adSearch()">검색</button>
+		<label class="switch">
+			<input type="checkbox" onlick="toggle_Markers()">
+			<span class="slider round"></span>
+		</label>
     </div>
 
 
@@ -26,7 +30,7 @@
 
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		    mapOption = {
-		        center: new kakao.maps.LatLng(37.56345, 126.98421), // 지도의 중심좌표
+		        center: new kakao.maps.LatLng(37.1991281, 126.8290566), // 지도의 중심좌표
 		        level: 3, // 지도의 확대 레벨
 		        mapTypeId : kakao.maps.MapTypeId.ROADMAP // 지도종류
 		    }; 
@@ -42,6 +46,9 @@
 
 		//지도 확대 축소 제어 객체
 		var zoomControl = new kakao.maps.ZoomControl();
+
+		//마커 토글 스위치
+		var toggle = true;
 
 
 		// 지도 확대 또는 축소시 이벤트 (해당범위(중심+경계로) 다시 검색)
@@ -78,12 +85,8 @@
                         // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
                         map.setCenter(coords);
 						map.setLevel(3);
-						
-						// 키워드로 장소를 검색합니다
-						ps.keywordSearch('경기지역화폐가맹점', placesSearchCB, {
-							location: map.getCenter(),
-							bounds: map.getBounds()
-						});
+
+						keySearch();
                     } 
                 });  
         } 
@@ -122,7 +125,21 @@
 		function setMarkers() {
 			for (var i = 0; i < markers.length; i++) {
 				markers[i].setMap(null);
+				markers[i].pop();
 			}            
+		}
+
+		// "마커 보이기/감추기" 기능
+		function toggle_Markers() {
+			if (toggle_Markers === true) {
+				setMarkers(null);
+				toggle_Markers = false;
+			} 
+
+			else{
+				setMarkers(map)
+				toggle_Markers = true;
+			}
 		}
 
 		//키워드 서치 함수 서치내용은 고정
