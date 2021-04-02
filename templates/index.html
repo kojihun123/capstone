@@ -14,7 +14,7 @@
 	</form> -->
 
     <div id="searchbox">
-        <input tpye="text" id="tbox" placeholder="주소 입력">
+        <input tpye="text" id="tbox" placeholder="주소 입력" onclick="sample5_execDaumPostcode()">
         <button type="button" id="tbutton" onclick="adSearch()">검색</button>
     </div>
 
@@ -145,8 +145,7 @@
 					}
 
 					// 주소 정보를 해당 필드에 넣는다.
-					document.getElementById("sample5_address").value = addr;
-					document.getElementById("hidden_address").value = data.roadAddress;
+					document.getElementById("tbox").value = addr;
 				},
 
 				onclose: function(state) {
