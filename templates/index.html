@@ -127,7 +127,8 @@
 			infowindow.close();
 			ps.keywordSearch('경기지역화폐가맹점', placesSearchCB, {
 				location: map.getCenter(),
-				bounds: map.getBounds()
+				bounds: map.getBounds(),
+				sort: kakao.maps.services.SortBy.DISTANCE
 			});
 		}
 
