@@ -6,7 +6,13 @@
     <link rel="stylesheet" href="{{url_for('static',filename='index.css')}}">
 </head>
 <body>
-    
+    <!-- <form action="/" method="post">
+		<input type="text" id="sample5_address" placeholder="주소" onclick="sample5_execDaumPostcode()" name="post_addr">
+		<input type="hidden" id="hidden_address" name="real_addr">
+		<input type="submit" value="주소 검색"><br>
+
+	</form> -->
+
     <div id="searchbox">
         <input tpye="text" id="tbox" placeholder="주소 입력">
         <button type="button" id="tbutton" onclick="adSearch()">검색</button>
@@ -14,6 +20,7 @@
 
 	<div id="map" style="width:1024px;height:768px;"></div>
 
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8b57e99d2686f4c3a48f76c342a5f3bd&libraries=services"></script>
 	<script>
 
@@ -122,6 +129,38 @@
 				location: map.getCenter(),
 				bounds: map.getBounds()
 			});
+		}
+
+		function sample5_execDaumPostcode() {
+			new daum.Postcode({
+				oncomplete: function(data) {
+					var addr = data.address; // 최종 주소 변수
+
+					//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+					if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+						addr = data.roadAddress;
+
+					} else { // 사용자가 지번 주소를 선택했을 경우(J)
+						addr = data.jibunAddress;
+					}
+
+					// 주소 정보를 해당 필드에 넣는다.
+					document.getElementById("sample5_address").value = addr;
+					document.getElementById("hidden_address").value = data.roadAddress;
+				},
+
+				onclose: function(state) {
+					//state는 우편번호 찾기 화면이 어떻게 닫혔는지에 대한 상태 변수 이며, 상세 설명은 아래 목록에서 확인하실 수 있습니다.
+					if(state === 'FORCE_CLOSE'){
+						//사용자가 브라우저 닫기 버튼을 통해 팝업창을 닫았을 경우, 실행될 코드를 작성하는 부분입니다.
+						alert('x')
+					} else if(state === 'COMPLETE_CLOSE'){
+						//사용자가 검색결과를 선택하여 팝업창이 닫혔을 경우, 실행될 코드를 작성하는 부분입니다.
+						//oncomplete 콜백 함수가 실행 완료된 후에 실행됩니다.
+					}
+				}
+				
+			}).open();
 		}
 
 	</script>

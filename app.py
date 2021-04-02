@@ -1,14 +1,21 @@
 from flask import Flask, render_template, request
-import current_loaction
 
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route('/',methods=('GET', 'POST'))
 def index():
-    #보낼 현제 위치 데이터 (위도, 경도)
-    #value1, value2 = current_loaction.mylocations()
-    return render_template('index.html')
+    if request.method == "POST":
+        data = request.form.get('real_addr') # 안전하게 가져오려면 get
+        print(data)
+
+        return render_template('index.html')
+
+    elif request.method == "GET":
+        user = "반원"
+        data = {'level': 60, 'point': 360, 'exp': 45000}
+        return render_template('index.html')
+
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
