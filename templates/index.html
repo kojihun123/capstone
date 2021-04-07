@@ -69,7 +69,7 @@
 				});
 
 				kakao.maps.event.addListener(marker, 'click', function() {
-					infowindow.setContent({{d['상호명']}});
+					infowindow.setContent('{{d['상호명']}}');
 					infowindow.open(map, marker);
 				});
 
