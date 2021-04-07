@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-import gmap.py
+import gmap
 
 app = Flask(__name__)
 
