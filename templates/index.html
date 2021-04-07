@@ -73,7 +73,6 @@
 				});
 
 				kakao.maps.event.addListener(marker, 'click', makeOverListener(map, marker, infowindow))
-				kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
 				
 				markers.push(marker);
 
