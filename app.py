@@ -8,8 +8,7 @@ app = Flask(__name__)
 def index():
     if request.method == "POST":
         data = request.form.get('hidden_addr') # 안전하게 가져오려면 get
-        print(data)
-        print(data[0])
+        print(type(data))
         # loc_data = gmap.ret_location(data[0], data[1])
 
         return render_template('index.html')
