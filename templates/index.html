@@ -6,10 +6,12 @@
     <link rel="stylesheet" href="{{url_for('static',filename='index.css')}}">
 </head>
 <body>
-    <form action="/" method="post">
+
+	<form action="/" method="POST">
 		<input type="text" id="sample5_address" placeholder="주소" onclick="sample5_execDaumPostcode()" name="post_addr">
 		<input type="hidden" id="hidden_location" name="hidden_addr">
-		<input type="submit" value="주소 검색"><br>
+		<input type="submit" id="test" value="주소 검색"><br>
+		{{data}}
 	</form>
 
     <!-- <div id="searchbox">
