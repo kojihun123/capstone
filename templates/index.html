@@ -10,8 +10,10 @@
 	<form action="/" method="POST">
 		<input type="text" id="sample5_address" placeholder="주소" onclick="sample5_execDaumPostcode()" name="post_addr">
 		<input type="hidden" id="hidden_location" name="hidden_addr">
-		<input type="submit" id="test" value="주소 검색" onclick="displayMarker()"><br>
+		<input type="submit" id="test" value="주소 검색"><br>
 	</form>
+
+	<input type="button" id="qwe" value="실행" onclick="displayMarker()"><br>
 
 	<div id="map" style="width:1024px;height:768px;"></div>
 
@@ -59,19 +61,15 @@
 
 		// 지도에 마커를 표시하고 리스너 추가 및 배열에 push하는 함수
 		function displayMarker() {
-			
-			var mydata = ['{{data}}']
 
-			for(i=0; i < length(mydata); i++){
-				
+			{% for d in data %}
 				var marker = new kakao.maps.Marker({
-				map: map,
-				position: new kakao.maps.LatLng() 
+					map: map,
+					position: new kakao.maps.LatLng({{d['위도']}}, {{d['경도']}}) 
 				});
 
 				markers.push(marker);
-
-			}
+			{% endfor %}
 
 			// // 마커에 클릭이벤트를 등록합니다
 			// kakao.maps.event.addListener(marker, 'click', function() {
@@ -116,10 +114,6 @@
 				}
 				
 			}).open();
-		}
-
-		function test(){
-
 		}
 
 	</script>
