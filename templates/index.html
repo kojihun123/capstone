@@ -6,17 +6,16 @@
     <link rel="stylesheet" href="{{url_for('static',filename='index.css')}}">
 </head>
 <body>
-    <!-- <form action="/" method="post">
+    <form action="/" method="post">
 		<input type="text" id="sample5_address" placeholder="주소" onclick="sample5_execDaumPostcode()" name="post_addr">
-		<input type="hidden" id="hidden_address" name="real_addr">
+		<input type="hidden" id="hidden_location" name="hidden_addr">
 		<input type="submit" value="주소 검색"><br>
+	</form>
 
-	</form> -->
-
-    <div id="searchbox">
+    <!-- <div id="searchbox">
         <input tpye="text" id="tbox" placeholder="주소 입력" onclick="sample5_execDaumPostcode()">
         <button type="button" id="tbutton" onclick="adSearch()">검색</button>
-    </div>
+    </div> -->
 
 	<div id="map" style="width:1024px;height:768px;"></div>
 
@@ -65,7 +64,7 @@
 
         //주소를 통한 검색으로 화면을 전환시켜주는 함수
         function adSearch(){
-            var address = document.getElementById("tbox").value;
+            var address = document.getElementById("sample5_address").value;
             geocoder.addressSearch(address, function(result, status) {
 
                     // 정상적으로 검색이 완료됐으면 
@@ -75,8 +74,7 @@
                         // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
                         map.setCenter(coords);
 						map.setLevel(3);
-
-						keySearch();
+						document.getElementById("hidden_location").value = map.getCenter()
                     } 
                 });  
         } 
@@ -128,8 +126,7 @@
 			ps.keywordSearch('경기지역화폐가맹점', placesSearchCB, {
 				location: map.getCenter(),
 				radius : 1500,
-				sort: kakao.maps.services.SortBy.DISTANCE,
-				page : 45
+				sort: kakao.maps.services.SortBy.DISTANCE
 			});
 		}
 
@@ -147,7 +144,7 @@
 					}
 
 					// 주소 정보를 해당 필드에 넣는다.
-					document.getElementById("tbox").value = addr;
+					document.getElementById("sample5_address").value = addr;
 				},
 
 				onclose: function(state) {
@@ -156,8 +153,7 @@
 						//사용자가 브라우저 닫기 버튼을 통해 팝업창을 닫았을 경우, 실행될 코드를 작성하는 부분입니다.
 						alert('x')
 					} else if(state === 'COMPLETE_CLOSE'){
-						//사용자가 검색결과를 선택하여 팝업창이 닫혔을 경우, 실행될 코드를 작성하는 부분입니다.
-						//oncomplete 콜백 함수가 실행 완료된 후에 실행됩니다.
+						adSearch();
 					}
 				}
 				
