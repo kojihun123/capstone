@@ -10,13 +10,8 @@
 	<form action="/" method="POST">
 		<input type="text" id="sample5_address" placeholder="주소" onclick="sample5_execDaumPostcode()" name="post_addr">
 		<input type="hidden" id="hidden_location" name="hidden_addr">
-		<input type="submit" id="test" value="주소 검색"><br>
+		<input type="submit" id="test" value="주소 검색" onclick="displayMarker()"><br>
 	</form>
-
-    <!-- <div id="searchbox">
-        <input tpye="text" id="tbox" placeholder="주소 입력" onclick="sample5_execDaumPostcode()">
-        <button type="button" id="tbutton" onclick="adSearch()">검색</button>
-    </div> -->
 
 	<div id="map" style="width:1024px;height:768px;"></div>
 
@@ -43,25 +38,6 @@
         //주소-좌표 변환 객체
         var geocoder = new kakao.maps.services.Geocoder();
 
-		// 장소 검색 객체
-		var ps = new kakao.maps.services.Places(map);
-
-		//지도 확대 축소 제어 객체
-		var zoomControl = new kakao.maps.ZoomControl();
-
-
-
-		// 지도 확대 또는 축소시 이벤트 (해당범위(중심+경계로) 다시 검색)
-		kakao.maps.event.addListener(map, 'zoom_changed', function() {        
-			keySearch();
-			
-		});
-
-		// 마우스 드래그로 지도 이동이 완료되었을때 (해당범위(중심+경계로) 다시 검색)
-		kakao.maps.event.addListener(map, 'dragend', function() {        
-			keySearch();
-		});
-
 
         //주소를 통한 검색으로 화면을 전환시켜주는 함수
         function adSearch(){
@@ -81,34 +57,22 @@
         } 
 
 
-
-
-		//키워드 검색 완료시 호출되는 콜백함수 (검색한것들 마커 적용)
-		function placesSearchCB (data, status, pagination) {
-			if (status === kakao.maps.services.Status.OK) {
-
-				for (var i=0; i<data.length; i++) {
-					displayMarker(data[i]);    
-				}       
-			} 
-		}
-
-
 		// 지도에 마커를 표시하고 리스너 추가 및 배열에 push하는 함수
 		function displayMarker(place) {
 			
-			// 마커를 생성하고 지도에 표시합니다
-			var marker = new kakao.maps.Marker({
-				map: map,
-				position: new kakao.maps.LatLng(place.y, place.x) 
-			});
+			{% for d in data %}
+				var marker = new kakao.maps.Marker({
+					map: map,
+					position: new kakao.maps.LatLng({{d['위도']}}, {{d['경도']}}) 
+				});
+			{% endfor %}
 
-			// 마커에 클릭이벤트를 등록합니다
-			kakao.maps.event.addListener(marker, 'click', function() {
-				// 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-				infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
-				infowindow.open(map, marker);
-			});
+			// // 마커에 클릭이벤트를 등록합니다
+			// kakao.maps.event.addListener(marker, 'click', function() {
+			// 	// 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+			// 	infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+			// 	infowindow.open(map, marker);
+			// });
 
 			markers.push(marker);
 		}
@@ -118,17 +82,6 @@
 			for (var i = 0; i < markers.length; i++) {
 				markers[i].setMap(null);
 			}            
-		}
-
-		//키워드 서치 함수 (마커 초기화, 인포윈도우 종료, 키워드 서치 실행)
-		function keySearch(){
-			setMarkers();
-			infowindow.close();
-			ps.keywordSearch('경기지역화폐가맹점', placesSearchCB, {
-				location: map.getCenter(),
-				radius : 1500,
-				sort: kakao.maps.services.SortBy.DISTANCE
-			});
 		}
 
 		function sample5_execDaumPostcode() {
@@ -159,6 +112,10 @@
 				}
 				
 			}).open();
+		}
+
+		function test(){
+
 		}
 
 	</script>

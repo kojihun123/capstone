@@ -17,9 +17,11 @@ def haversine(lat1, lon1, lat2, lon2):
     return total_miles
 
 
+#200m 범위에 가게들의 정보를 리턴
 def ret_location(lat, long):
 
     find_row = data.loc[haversine(lat, long, data['위도'], data['경도']) <= 0.1553428]
-    print(find_row)
-    return find_row
-
+    result = []
+    for d in range(0, len(find_row)):
+        result.append(dict(find_row.iloc[d]))
+    return result

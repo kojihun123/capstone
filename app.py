@@ -7,20 +7,13 @@ app = Flask(__name__)
 @app.route('/',methods=('GET', 'POST'))
 def index():
     if request.method == "POST":
-        data = request.form.get('hidden_addr') # 안전하게 가져오려면 get
-        a = data.split(',')[0].lstrip("(")
-        b = data.split(',')[1].lstrip(" ").rstrip(")")
-
-
-        loc_data = gmap.ret_location(float(a), float(b))
-
-        print(loc_data)
-
-        return render_template('index.html')
+        #data = request.form.get('hidden_addr') # 안전하게 가져오려면 get
+        #a = data.split(',')[0].lstrip("(")
+        #b = data.split(',')[1].lstrip(" ").rstrip(")")
+        loc_data = gmap.ret_location(37.198498, 127.048975)
+        return render_template('index.html', data=loc_data)
 
     elif request.method == "GET":
-        user = "반원"
-        data = {'level': 60, 'point': 360, 'exp': 45000}
         return render_template('index.html')
 
 
