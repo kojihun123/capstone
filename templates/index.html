@@ -70,6 +70,7 @@
 
 				kakao.maps.event.addListener(marker, 'click', function() {
 					infowindow.setContent('{{d['상호명']}}');
+					infowindow.setPosition({{d['위도']}}, {{d['경도']}})
 					infowindow.open(map, marker);
 				});
 
