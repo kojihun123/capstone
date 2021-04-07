@@ -11,7 +11,7 @@ def index():
         #a = data.split(',')[0].lstrip("(")
         #b = data.split(',')[1].lstrip(" ").rstrip(")")
         loc_data = gmap.ret_location(37.198498, 127.048975)
-        return render_template('index.html', data=loc_data)
+        return render_template('index.html', mydata=loc_data)
 
     elif request.method == "GET":
         return render_template('index.html')

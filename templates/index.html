@@ -62,7 +62,7 @@
 		// 지도에 마커를 표시하고 리스너 추가 및 배열에 push하는 함수
 		function displayMarker() {
 
-			{% for d in data %}
+			{% for d in mydata %}
 				var marker = new kakao.maps.Marker({
 					map: map,
 					position: new kakao.maps.LatLng({{d['위도']}}, {{d['경도']}}) 
@@ -70,13 +70,12 @@
 
 				markers.push(marker);
 
-				// 마커에 클릭이벤트를 등록합니다
+			
 				kakao.maps.event.addListener(marker, 'click', function() {
-					// 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-					var name = {{d['상호명']}};
-					infowindow.setContent('<div style="padding:5px;font-size:12px;">' + name + '</div>');
+					infowindow.setContent({{d['상호명']}});
 					infowindow.open(map, marker);
 				});
+
 			{% endfor %}
 		}
 
