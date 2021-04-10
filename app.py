@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('a.html')
+    return render_template('index.html')
 
 @app.route('/ajax', methods=['POST'])
 def ajax():
