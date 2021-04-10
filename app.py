@@ -4,17 +4,16 @@ import gmap
 app = Flask(__name__)
 
 
-@app.route('/',methods=('GET', 'POST'))
+@app.route('/')
 def index():
-    if request.method == "POST":
-        data = request.form.get('hidden_addr') # 안전하게 가져오려면 get
-        a = data.split(',')[0].lstrip("(")
-        b = data.split(',')[1].lstrip(" ").rstrip(")")
-        loc_data = gmap.ret_location(float(a), float(b))
-        return render_template('index.html', mydata=loc_data)
+    return render_template('index.html')
 
-    elif request.method == "GET":
-        return render_template('index.html')
+@app.route('/ajax', methods=['POST'])
+def ajax():
+    data = request.get_json()
+    print(type(data))
+
+    return jsonify(result = "success", result2= data)
 
 
 if __name__ == '__main__':

@@ -7,11 +7,10 @@
 </head>
 <body>
 
-	<form action="/" method="POST">
-		<input type="text" id="sample5_address" placeholder="주소" onclick="sample5_execDaumPostcode()" name="post_addr">
-		<input type="hidden" id="hidden_location" name="hidden_addr">
-		<input type="submit" id="test" value="주소 검색"><br>
-	</form>
+	<input type="text" id="sample5_address" placeholder="주소" onclick="sample5_execDaumPostcode()" name="post_addr">
+	<input type="hidden" id="hidden_location" name="hidden_addr">
+	<input type="button" id="search" value="주소 검색"><br>
+
 
 	<input type="button" id="qwe" value="실행" onclick="displayMarker()"><br>
 
@@ -127,6 +126,25 @@
 				
 			}).open();
 		}
+
+        $('#search').click(function(){
+            var location = $('#hidden_location').val();
+
+            $.ajax({
+                type: 'POST',
+                url: 'http://127.0.0.1:5000/ajax',
+                data: JSON.stringify(location),
+                dataType : 'JSON',
+                contentType: "application/json",
+                success: function(data){
+                    alert('성공!')
+                },
+                error: function(request, status, error){
+                    alert('ajax 통신 실패')
+                    alert(error);
+                }
+            })
+        })
 
 	</script>
 </body>
