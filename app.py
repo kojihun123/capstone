@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('a.html')
 
 @app.route('/ajax', methods=['POST'])
 def ajax():
@@ -16,7 +16,6 @@ def ajax():
     loc_data = gmap.ret_location(float(a), float(b))
 
     return jsonify(result = "success", mydata= loc_data)
-
 
 if __name__ == '__main__':
     app.run(debug=True)

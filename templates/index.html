@@ -57,14 +57,14 @@
 		// 지도에 마커를 표시하고 리스너 추가 및 배열에 push하는 함수
 		function displayMarker(mydata) {
 
-			for(var d in mydata){
+			for(key in mydata){
 				var marker = new kakao.maps.Marker({
 					map: map,
-					position: new kakao.maps.LatLng(d['위도'], d['경도']) 
+					position: new kakao.maps.LatLng(mydata[key]['위도'] ,mydata[key]['경도']) 
 				});
 
 				var infowindow = new kakao.maps.InfoWindow({
-					content: d['상호명']
+					content: mydata[key]['상호명']
 				});
 
 				kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow))
@@ -134,8 +134,7 @@
                 contentType: "application/json",
                 success: function(data){
                     alert('성공!')
-					console.log(data)
-					displayMarker(data)
+					displayMarker(data.mydata)
                 },
                 error: function(request, status, error){
                     alert('ajax 통신 실패')
