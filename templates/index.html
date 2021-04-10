@@ -57,8 +57,7 @@
 		// 지도에 마커를 표시하고 리스너 추가 및 배열에 push하는 함수
 		function displayMarker(mydata) {
 
-			for(var d in mydata)
-
+			for(var d in mydata){
 				var marker = new kakao.maps.Marker({
 					map: map,
 					position: new kakao.maps.LatLng(d['위도'], d['경도']) 
@@ -72,6 +71,7 @@
 				kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
 				
 				markers.push(marker);
+			}
 		}
 
 		function makeOverListener(map, marker, infowindow) {
