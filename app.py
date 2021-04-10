@@ -12,7 +12,7 @@ def index():
 def ajax():
     data = request.get_json()
     print(type(data))
-
+    print(data)
     return jsonify(result = "success", result2= data)
 
 
