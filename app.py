@@ -11,6 +11,7 @@ def index():
 @app.route('/ajax', methods=['POST'])
 def ajax():
     data = request.get_json()
+    print(data)
     a = data.split(',')[0].lstrip("(")
     b = data.split(',')[1].lstrip(" ").rstrip(")")
     loc_data = gmap.ret_location(float(a), float(b))
@@ -19,3 +20,6 @@ def ajax():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+( 12331.123, 1312.3131 )
