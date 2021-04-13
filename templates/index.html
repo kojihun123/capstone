@@ -11,7 +11,7 @@
 	<input type="text" id="sample5_address" placeholder="주소" onclick="sample5_execDaumPostcode()" name="post_addr">
 	<input type="hidden" id="hidden_location" name="hidden_addr">
 	<input type="button" id="search" value="주소 검색" onclick="adSearch()">&nbsp;
-	<input type="button" id="search_current_location" value="현 위치에서 검색"><br>
+	<input type="button" id="search_current_location" value="현 위치에서 검색" onclick="send_to_server()"><br>
 
 	<div id="map" style="width:1024px;height:768px;"></div>
 
@@ -49,7 +49,7 @@
                         // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
                         map.setCenter(coords);
 						map.setLevel(3);
-						test();
+						send_to_server();
                     } 
             });  
         } 
@@ -130,7 +130,7 @@
 		}
 
 		//주소 검색버튼 누를시
-        function test(){
+        function send_to_server(){
 			setMarkers();
 			document.getElementById("hidden_location").value = map.getCenter();
             var location = $('#hidden_location').val();
@@ -152,31 +152,6 @@
                 }
             })
         }
-
-		// 현 위치에서 검색 누를시
-		$('#search_current_location').click(function(){
-			setMarkers();
-			document.getElementById("hidden_location").value = map.getCenter();
-            var location = $('#hidden_location').val();
-			console.log(location)
-
-            $.ajax({
-                type: 'POST',
-				async: false,
-                url: 'https://young-hollows-30103.herokuapp.com/ajax',
-                data: JSON.stringify(location),
-                dataType : 'JSON',
-                contentType: "application/json",
-                success: function(data){
-                    alert('성공!')
-					displayMarker(data.mydata)
-                },
-                error: function(request, status, error){
-                    alert('ajax 통신 실패')
-                    alert(error);
-                }
-            })
-        })
 
 	</script>
 </body>
