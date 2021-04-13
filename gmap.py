@@ -21,6 +21,8 @@ def haversine(lat1, lon1, lat2, lon2):
 def ret_location(lat, long):
 
     temp = data.loc[haversine(lat, long, data['위도'], data['경도']) <= 0.1553428]
+
+    # Nan 있는 행 다버리는중 (해결방안찾기)
     find_row = temp.dropna()
 
     result = []
