@@ -131,6 +131,7 @@
 			setMarkers();
 			adSearch();
             var location = $('#hidden_location').val();
+			console.log(location)
 
             $.ajax({
                 type: 'POST',
@@ -154,6 +155,7 @@
 			setMarkers();
 			document.getElementById("hidden_location").value = map.getCenter();
             var location = $('#hidden_location').val();
+			console.log(location)
 
             $.ajax({
                 type: 'POST',
