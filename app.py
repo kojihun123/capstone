@@ -20,6 +20,3 @@ def ajax():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-( 12331.123, 1312.3131 )
