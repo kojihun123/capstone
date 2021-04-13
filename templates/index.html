@@ -10,7 +10,7 @@
 
 	<input type="text" id="sample5_address" placeholder="주소" onclick="sample5_execDaumPostcode()" name="post_addr">
 	<input type="hidden" id="hidden_location" name="hidden_addr">
-	<input type="button" id="search" value="주소 검색">&nbsp;
+	<input type="button" id="search" value="주소 검색" onclick="adSearch(); search();">&nbsp;
 	<input type="button" id="search_current_location" value="현 위치에서 검색"><br>
 
 	<div id="map" style="width:1024px;height:768px;"></div>
@@ -126,9 +126,8 @@
 		}
 
 		// 검색버튼 누를시
-        $('#search').click(function(){
+        function search(){
 			setMarkers();
-			adSearch();
             var location = $('#hidden_location').val();
 
             $.ajax({
@@ -146,7 +145,7 @@
                     alert(error);
                 }
             })
-        })
+        }
 
 		// 현 위치에서 검색 누를시
 		$('#search_current_location').click(function(){
