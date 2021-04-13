@@ -20,7 +20,9 @@ def haversine(lat1, lon1, lat2, lon2):
 #200m 범위에 가게들의 정보를 리턴
 def ret_location(lat, long):
 
-    find_row = data.loc[haversine(lat, long, data['위도'], data['경도']) <= 0.1553428]
+    temp = data.loc[haversine(lat, long, data['위도'], data['경도']) <= 0.1553428]
+    find_row = temp.dropna()
+
     result = []
     for d in range(0, len(find_row)):
         result.append(dict(find_row.iloc[d]))
