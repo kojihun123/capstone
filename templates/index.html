@@ -133,6 +133,7 @@
 
             $.ajax({
                 type: 'POST',
+				async: false,
                 url: 'https://young-hollows-30103.herokuapp.com/ajax',
                 data: JSON.stringify(location),
                 dataType : 'JSON',
@@ -156,6 +157,7 @@
 
             $.ajax({
                 type: 'POST',
+				async: false,
                 url: 'https://young-hollows-30103.herokuapp.com/ajax',
                 data: JSON.stringify(location),
                 dataType : 'JSON',
