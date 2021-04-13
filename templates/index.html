@@ -49,6 +49,7 @@
                         // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
                         map.setCenter(coords);
 						map.setLevel(3);
+						document.getElementById("hidden_location").value = map.getCenter();
                     } 
                 });  
         } 
@@ -128,7 +129,6 @@
         $('#search').click(function(){
 			setMarkers();
 			adSearch();
-			document.getElementById("hidden_location").value = map.getCenter();
             var location = $('#hidden_location').val();
 
             $.ajax({
