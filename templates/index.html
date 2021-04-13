@@ -49,6 +49,7 @@
                         // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
                         map.setCenter(coords);
 						map.setLevel(3);
+						test();
                     } 
             });  
         } 
@@ -129,9 +130,8 @@
 		}
 
 		//주소 검색버튼 누를시
-        $('#search').click(function(){
+        function test(){
 			setMarkers();
-			adSearch();
 			document.getElementById("hidden_location").value = map.getCenter();
             var location = $('#hidden_location').val();
 			console.log(location)
@@ -151,7 +151,7 @@
                     alert(error);
                 }
             })
-        })
+        }
 
 		// 현 위치에서 검색 누를시
 		$('#search_current_location').click(function(){
