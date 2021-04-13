@@ -120,8 +120,9 @@
 					if(state === 'FORCE_CLOSE'){
 						//사용자가 브라우저 닫기 버튼을 통해 팝업창을 닫았을 경우, 실행될 코드를 작성하는 부분입니다.
 						alert('x')
-					} else if(state === 'COMPLETE_CLOSE'){
-
+					}
+					 else if(state === 'COMPLETE_CLOSE'){
+						 
 					}
 				}
 				
@@ -138,7 +139,7 @@
             $.ajax({
                 type: 'POST',
                 url: 'https://young-hollows-30103.herokuapp.com/ajax',
-                data: location,
+                data: JSON.stringify(location),
                 dataType : 'JSON',
                 contentType: "application/json",
                 success: function(data){
@@ -162,7 +163,7 @@
             $.ajax({
                 type: 'POST',
                 url: 'https://young-hollows-30103.herokuapp.com/ajax',
-                data: location,
+                data: JSON.stringify(location),
                 dataType : 'JSON',
                 contentType: "application/json",
                 success: function(data){
