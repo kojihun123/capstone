@@ -89,9 +89,10 @@
 
 		// 배열에 추가된 마커들을 지도에서 삭제하는 함수
 		function setMarkers() {
-			while (markers.length > 0) {
-				markers.pop();
-			}         
+			for ( var i = 0; i < markers.length; i++ ) {
+				markers[i].setMap(null);
+			}   
+			markers = [];       
 		}
 
 		//다음 우편번호 찾기 api
