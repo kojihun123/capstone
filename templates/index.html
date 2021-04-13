@@ -122,7 +122,7 @@
 						alert('x')
 					}
 					 else if(state === 'COMPLETE_CLOSE'){
-						 
+
 					}
 				}
 				
@@ -162,6 +162,7 @@
 
             $.ajax({
                 type: 'POST',
+				async: false,
                 url: 'https://young-hollows-30103.herokuapp.com/ajax',
                 data: JSON.stringify(location),
                 dataType : 'JSON',
