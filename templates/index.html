@@ -11,8 +11,33 @@
 	<input type="text" id="sample5_address" placeholder="주소" onclick="sample5_execDaumPostcode()" name="post_addr">
 	<input type="hidden" id="hidden_location" name="hidden_addr">
 	<input type="button" id="search" value="주소 검색" onclick="adSearch()">&nbsp;
-	<input type="button" id="search_current_location" value="현 위치에서 검색" onclick="send_to_server()"><br>
-	<input type="button" id="search_category" value="카테고리 검색" onclick="send_to_server('일반휴게음식')"><br>
+	<input type="button" id="search_current_location" value="현 위치에서 검색" onclick="send_to_server()">&nbsp;
+	<select name="category">
+		<option value="" selected>모두</option>
+		<option value="일반휴게음식|음식점|음식점업">음식점</option>
+		<option value="음료식품">음료식품</option>
+		<option value="보건위생">미용실, 네일아트, 화장품</option>
+		<option value="문화.취미">문화, 취미</option>
+		<option value="의류">의류</option>
+		<option value="약국|의원|병원">약국, 병원</option>
+		<option value="유통업 영리|GS25">편의점, 마켓</option>
+		<option value="숙박업">숙박업</option>
+		<option value="수리서비스">세탁소, 수리서비스</option>
+		<option value="레저업소|스포츠">레저업소</option>
+		<option value="가구">가구</option>
+		<option value="건축자제">건축자제</option>
+		<option value="직물">직물</option>
+		<option value="신변잡화">신변잡화</option>
+		<option value="전기제품">전기제품</option>
+		<option value="광학제품">사진관, 광학제품</option>
+		<option value="연료판매점">주요소</option>
+		<option value="레져용품">레져용품</option>
+		<option value="서적문구">서적문구</option>
+		<option value="주방용구">주방용구</option>
+		<option value="학원">학원</option>
+		<option value="용역 서비스">용역 서비스</option>
+		<option value="여행">여행</option>
+	</select>
 
 	<div id="map" style="width:1024px;height:768px;"></div>
 
@@ -131,11 +156,12 @@
 		}
 
 		//좌표데이터 서버로 보내는 함수
-        function send_to_server(category=''){
+        function send_to_server(){
 			setMarkers();
+			var target = document.getElementsByName("category")
 			document.getElementById("hidden_location").value = map.getCenter();
 
-			var location = {"parm1" : $('#hidden_location').val(), "parm2" : category}
+			var location = {"parm1" : $('#hidden_location').val(), "parm2" : target.options[target.selectedIndex].value}
 
 			console.log(location)
 
