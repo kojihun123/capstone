@@ -12,6 +12,7 @@
 	<input type="hidden" id="hidden_location" name="hidden_addr">
 	<input type="button" id="search" value="주소 검색" onclick="adSearch()">&nbsp;
 	<input type="button" id="search_current_location" value="현 위치에서 검색" onclick="send_to_server()"><br>
+	<input type="button" id="search_category" value="카테고리 검색" onclick="send_to_server('일반휴게음식')"><br>
 
 	<div id="map" style="width:1024px;height:768px;"></div>
 
@@ -129,11 +130,13 @@
 			}).open();
 		}
 
-		//주소 검색버튼 누를시
-        function send_to_server(){
+		//좌표데이터 서버로 보내는 함수
+        function send_to_server(category=''){
 			setMarkers();
 			document.getElementById("hidden_location").value = map.getCenter();
-            var location = $('#hidden_location').val();
+
+			var location = {"parm1" : $('#hidden_location').val(), "parm2" : category}
+
 			console.log(location)
 
             $.ajax({

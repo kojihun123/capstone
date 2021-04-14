@@ -18,9 +18,13 @@ def haversine(lat1, lon1, lat2, lon2):
 
 
 #200m 범위에 가게들의 정보를 리턴
-def ret_location(lat, long):
+def ret_location(lat, long, category=''):
 
     temp = data.loc[haversine(lat, long, data['위도'], data['경도']) <= 0.1553428]
+    
+    if category:
+        temp = temp[temp['업종명(종목명)'].str.contains(category, na=False)]
+
 
     # Nan 있는 행 다버리는중 (해결방안찾기)
     find_row = temp.dropna()

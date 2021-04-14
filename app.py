@@ -12,11 +12,12 @@ def index():
 def ajax():
     data = request.get_json()
     print(data)
-    a = data.split(',')[0].lstrip("(")
-    b = data.split(',')[1].lstrip(" ").rstrip(")")
-    loc_data = gmap.ret_location(float(a), float(b))
+    a = data['parm1'].split(',')[0].lstrip("(")
+    b = data['parm1'].split(',')[1].lstrip(" ").rstrip(")")
+    loc_data = gmap.ret_location(float(a), float(b), data['parm2'])
 
     return jsonify(result = "success", mydata= loc_data)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
