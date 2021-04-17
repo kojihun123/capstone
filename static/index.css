@@ -1,29 +1,79 @@
-input:-ms-input-placeholder {color: #a8a8a8;}
-input:-webkit-input-placeholder{color: #a8a8a8;}
-input:-moz-placeholder{color: #a8a8a8;}
-
-#searchbox{
-    height: 40px;
-    width: 400px;
-    border: 1px solid #1b5ac2;
-    background: #ffffff;
+* {
+    box-sizing: border-box;
 }
 
-#tbox{
-    font-size:  16px;
-    width: 325px;
+body {
     padding: 10px;
-    border: 0px;
-    outline: none;
-    float: left;
+    font-family: Gulim;
+    background: #eee;
 }
 
-#tbutton{
-    width: 50px;
-    height: 100%;
-    border: 0px;
-    background:#1b5ac2;
-    outline: none;
-    float:right;
-    color:#ffffff;
+.header {
+    padding: 10px;
+    text-align: center;
+    background: white;
+}
+
+.header h1 {
+    font-size: 40px;
+}
+
+.nav {
+    overflow: hidden;
+    background-color: #b70202;
+}
+
+.nav a{
+    float: right;
+    color: #ffffff;
+    text-align: center;
+    padding: 12px 12px;
+    text-decoration: none;
+}
+
+.tools{
+    padding: 10px;
+    margin-top: 20px;
+    background-color: white;
+}
+
+.left{
+    float: left;
+    width: 100%;
+}
+
+.right{
+    float: left;
+    width: 25%;
+    background-color: #eee;
+    padding-left: 20px;
+}
+
+#map{
+    width: 100%;
+}
+
+.fakeimg{
+    background-color: #aaa;
+    width: 100%;
+    padding: 20px;
+}
+
+.card{
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.row:after{
+    content: "";
+    display: table;
+    clear: both
+}
+
+.footer {
+    padding: 10px;
+    text-align: center;
+    background: white;
+    margin-top: 20px;
 }
