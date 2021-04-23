@@ -130,10 +130,21 @@
 					var lat = position.coords.latitude, // 위도
 						lon = position.coords.longitude; // 경도
 
-					var locPosition = new kakao.maps.LatLng(lat, lon)
-					map.setCenter(locPosition);
-					map.setLevel(3);
-					send_to_server();
+					var callback = function(result, status){
+
+						if (result[0].address.region_1depth_name === "경기"){
+							var locPosition = new kakao.maps.LatLng(lat, lon)
+							map.setCenter(locPosition);
+							map.setLevel(3);
+							send_to_server();
+						}
+
+						else {
+							alert('경기도에서만 작동 합니다!!!')
+						}
+					}
+
+					geocoder.coord2Address(lat, lon, callback)
 				});
 			}
 		}
@@ -212,6 +223,9 @@
 				
 			}).open();
 		}
+
+
+
 
 		//좌표데이터 서버로 보내는 함수
         function send_to_server(){

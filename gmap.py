@@ -3,6 +3,7 @@ import csv
 from geopy import distance
 import numpy as np
 
+
 data = pd.read_csv("./지역화폐 가맹점 현황.csv", encoding='euc-kr')
 
 # Haversine 기본 거리 공식을 정의 (죄표로 직선거리 계산)
@@ -30,6 +31,12 @@ def ret_location(lat, long, category=''):
     find_row = temp.dropna()
 
     result = []
+
     for d in range(0, len(find_row)):
         result.append(dict(find_row.iloc[d]))
     return result
+    
+
+
+
+
