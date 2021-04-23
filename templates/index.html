@@ -220,10 +220,10 @@
 
 		function test(result, status){
 			if (status === kakao.maps.services.Status.OK) {
-				
+
 				console.log(result[0][Object.keys(result[0])[3]])
 
-				if (result[0][Object.keys(result[0])[3]] === '경기도')
+				if (result[0][Object.keys(result[0])[3]] == '경기도')
 					return true;
 				
 				else
