@@ -237,7 +237,7 @@
         function send_to_server(){
 			setMarkers();
 
-			if (is_gyeonggi(map.getCenter(), test)){
+			if (is_gyeonggi(map.getCenter(), test) == true){
 				var target = document.getElementById("test");
 				document.getElementById("hidden_location").value = map.getCenter();
 
