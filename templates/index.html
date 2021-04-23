@@ -214,18 +214,23 @@
 			}).open();
 		}
 
-		function is_gyeonggi(){
-			result = geocoder.coord2Address(map.getCenter());
-			console.log(result[0])
+		function is_gyeonggi(coords, callback){
+			geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
 		}
 
+		function test(result, status){
+			if (status === kakao.maps.services.Status.OK) {
+				console.log(result[0]);
+			}
+		}
 
 
 
 		//좌표데이터 서버로 보내는 함수
         function send_to_server(){
 			setMarkers();
-			is_gyeonggi();
+			is_gyeonggi(map.getCenter(), funf());
+
 			var target = document.getElementById("test");
 			document.getElementById("hidden_location").value = map.getCenter();
 
