@@ -130,6 +130,9 @@
 					var lat = position.coords.latitude, // 위도
 						lon = position.coords.longitude; // 경도
 
+					
+					geocoder.coord2Address(lat, lon, callback)
+
 					var callback = function(result, status){
 
 						if (result[0].address.region_1depth_name === "경기"){
@@ -144,7 +147,6 @@
 						}
 					}
 
-					geocoder.coord2Address(lat, lon, callback)
 				});
 			}
 		}
