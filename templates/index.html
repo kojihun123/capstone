@@ -25,7 +25,7 @@
 		<input type="hidden" id="hidden_location" name="hidden_addr">
 		<input type="button" id="search" value="주소 검색" onclick="adSearch()">&nbsp;
 		<input type="button" id="my_loc" value="내 위치로 검색" onclick="my_location()">&nbsp;
-		<input type="button" id="search_current_location" value="현 위치에서 검색" onclick="send_to_server()">&nbsp&nbsp;
+		<input type="button" id="search_current_location" value="현 위치에서 검색" onclick="searchAddrFromCoords(map.getCenter(), is_gyeonggi)">&nbsp&nbsp;
 		<label>카테고리
 			<select name="category" id="test">
 				<option value="" selected>모두</option>
@@ -86,9 +86,6 @@
 	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8b57e99d2686f4c3a48f76c342a5f3bd&libraries=services"></script>
 	<script>
 
-		//경기지역이 맞는지 아닌지 확인용
-		var is_true = true;
-
 		//마커 객체 보유 배열
 		var markers = [];
 
@@ -119,7 +116,7 @@
                         // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
                         map.setCenter(coords);
 						map.setLevel(3);
-						send_to_server();
+						searchAddrFromCoords(map.getCenter(), is_gyeonggi)
                     } 
             });  
         } 
@@ -137,7 +134,7 @@
 					var locPosition = new kakao.maps.LatLng(lat, lon);
 					map.setCenter(locPosition);
 					map.setLevel(3);
-					send_to_server();
+					searchAddrFromCoords(map.getCenter(), is_gyeonggi)
 				});
 			}
 		}
@@ -221,16 +218,18 @@
 			geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
 		}
 
+
+		
 		function is_gyeonggi(result, status){
 			if (status === kakao.maps.services.Status.OK) {
 
 				console.log(result[0][Object.keys(result[0])[3]])
 
 				if (result[0][Object.keys(result[0])[3]] == '경기도')
-					is_true = true;
+					send_to_server();
 				
 				else
-					is_true = false;
+					alert('경기도 지역에서만 작동합니다!')
 			}
 		}
 
@@ -239,36 +238,30 @@
 		//좌표데이터 서버로 보내는 함수
         function send_to_server(){
 			setMarkers();
-			searchAddrFromCoords(map.getCenter(), is_gyeonggi);
 
-			if (is_true == true){
-				var target = document.getElementById("test");
-				document.getElementById("hidden_location").value = map.getCenter();
+			var target = document.getElementById("test");
+			document.getElementById("hidden_location").value = map.getCenter();
 
-				var location = {"parm1" : $('#hidden_location').val(), "parm2" : target.options[target.selectedIndex].value}
+			var location = {"parm1" : $('#hidden_location').val(), "parm2" : target.options[target.selectedIndex].value}
 
-				console.log(location)
+			console.log(location)
 
-				$.ajax({
-					type: 'POST',
-					url: 'https://young-hollows-30103.herokuapp.com/ajax',
-					data: JSON.stringify(location),
-					dataType : 'JSON',
-					contentType: "application/json",
-					success: function(data){
-						alert('성공!')
-						displayMarker(data.mydata)
-					},
-					error: function(request, status, error){
-						alert('ajax 통신 실패')
-						alert(error);
-					}
-				})
-			}
-
-			else
-				alert('경기도 지역에서만 작동합니다!')
-        }
+			$.ajax({
+				type: 'POST',
+				url: 'https://young-hollows-30103.herokuapp.com/ajax',
+				data: JSON.stringify(location),
+				dataType : 'JSON',
+				contentType: "application/json",
+				success: function(data){
+					alert('성공!')
+					displayMarker(data.mydata)
+				},
+				error: function(request, status, error){
+					alert('ajax 통신 실패')
+					alert(error);
+				}
+			})
+		}
 
 	</script>
 </body>
