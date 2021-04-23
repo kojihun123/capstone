@@ -220,7 +220,11 @@
 
 		function test(result, status){
 			if (status === kakao.maps.services.Status.OK) {
-				console.log(result[0]);
+				if (result[0].address.region_1depth_name === '경기도')
+					return true;
+				
+				else
+					return false;
 			}
 		}
 
@@ -229,30 +233,34 @@
 		//좌표데이터 서버로 보내는 함수
         function send_to_server(){
 			setMarkers();
-			is_gyeonggi(map.getCenter(), test);
 
-			var target = document.getElementById("test");
-			document.getElementById("hidden_location").value = map.getCenter();
+			if (is_gyeonggi(map.getCenter(), test)){
+				var target = document.getElementById("test");
+				document.getElementById("hidden_location").value = map.getCenter();
 
-			var location = {"parm1" : $('#hidden_location').val(), "parm2" : target.options[target.selectedIndex].value}
+				var location = {"parm1" : $('#hidden_location').val(), "parm2" : target.options[target.selectedIndex].value}
 
-			console.log(location)
+				console.log(location)
 
-            $.ajax({
-                type: 'POST',
-                url: 'https://young-hollows-30103.herokuapp.com/ajax',
-                data: JSON.stringify(location),
-                dataType : 'JSON',
-                contentType: "application/json",
-                success: function(data){
-                    alert('성공!')
-					displayMarker(data.mydata)
-                },
-                error: function(request, status, error){
-                    alert('ajax 통신 실패')
-                    alert(error);
-                }
-            })
+				$.ajax({
+					type: 'POST',
+					url: 'https://young-hollows-30103.herokuapp.com/ajax',
+					data: JSON.stringify(location),
+					dataType : 'JSON',
+					contentType: "application/json",
+					success: function(data){
+						alert('성공!')
+						displayMarker(data.mydata)
+					},
+					error: function(request, status, error){
+						alert('ajax 통신 실패')
+						alert(error);
+					}
+				})
+			}
+
+			else
+				alert('경기도 지역에서만 작동합니다!')
         }
 
 	</script>
