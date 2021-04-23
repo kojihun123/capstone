@@ -221,8 +221,8 @@
 		function test(result, status){
 			if (status === kakao.maps.services.Status.OK) {
 
-				console.log(result)
-				if (result[0] === '경기도')
+				console.log(result[0][region_1depth_name])
+				if (result[0][region_1depth_name] === '경기도')
 					return true;
 				
 				else
