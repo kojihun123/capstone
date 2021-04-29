@@ -38,6 +38,10 @@ html, body{
     height: 100%;
 }
 
+svg{
+    position: relative;
+}
+
 .floating_area{
     position: absolute;
     top:65px;
