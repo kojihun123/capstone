@@ -7,80 +7,8 @@
 	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
-	<!-- header 영역 -->
-	<div class="header">
-		<h1>경기지역화폐 지도</h1>
-		<p>개발중</p>
-	</div>
-
-	<!-- navigator 영역 -->
-	<div class="nav">
-		<a href="#">회원가입</a>
-		<a href="#">로그인</a>
-		<a href="#">이용안내</a>
-	</div>
-
-	<div class="tools">
-		<input type="text" id="sample5_address" placeholder="주소" onclick="sample5_execDaumPostcode()" name="post_addr">
-		<input type="hidden" id="hidden_location" name="hidden_addr">
-		<input type="button" id="search" value="주소 검색" onclick="adSearch()">&nbsp;
-		<input type="button" id="my_loc" value="내 위치로 검색" onclick="my_location()">&nbsp;
-		<input type="button" id="search_current_location" value="현 위치에서 검색" onclick="searchAddrFromCoords(map.getCenter(), is_gyeonggi)">&nbsp&nbsp;
-		<label>카테고리
-			<select name="category" id="test">
-				<option value="" selected>모두</option>
-				<option value="일반휴게음식|음식점|음식점업">음식점</option>
-				<option value="음료식품">음료식품</option>
-				<option value="보건위생">미용실, 네일아트, 화장품</option>
-				<option value="문화.취미">문화, 취미</option>
-				<option value="의류">의류</option>
-				<option value="약국|의원|병원">약국, 병원</option>
-				<option value="유통업 영리|GS25">편의점, 마켓</option>
-				<option value="숙박업">숙박업</option>
-				<option value="수리서비스">세탁소, 수리서비스</option>
-				<option value="레저업소|스포츠">레저업소</option>
-				<option value="가구">가구</option>
-				<option value="건축자제">건축자제</option>
-				<option value="직물">직물</option>
-				<option value="신변잡화">신변잡화</option>
-				<option value="전기제품">전기제품</option>
-				<option value="광학제품">사진관, 광학제품</option>
-				<option value="연료판매점">주요소</option>
-				<option value="레져용품">레져용품</option>
-				<option value="서적문구">서적문구</option>
-				<option value="주방용구">주방용구</option>
-				<option value="학원">학원</option>
-				<option value="용역 서비스">용역 서비스</option>
-				<option value="여행">여행</option>
-			</select>
-		</label>
-	</div>
-
-	<!-- main content 영역 -->
-	<div class="row">
-		<div class="left">
-			<div class="card">
-				<div id="map" style="height: 450px;"></div>
-			</div>
-		</div>
-
-		<!-- sidebar content 영역 -->
-		<!-- <div class="right">
-			<div class="card">
-				<h2>Right1</h2>
-				<div class="fakeimg" style="height: 100px;">Image</div>
-				<h2>Right2</h2>
-				<div class="fakeimg" style="height:100px">Image</div>
-			</div>
-		</div> -->
-	</div>
-
-	<!-- footer 영역 -->
-	<div class="footer">
-		<h3>link나 광고</h3>
-	</div>
-
-
+	
+	<div id="map"></div>
 
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8b57e99d2686f4c3a48f76c342a5f3bd&libraries=services"></script>
@@ -214,12 +142,13 @@
 			}).open();
 		}
 
+		// 좌표로 주소를 검색하는 함수
 		function searchAddrFromCoords(coords, callback){
 			geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
 		}
 
 
-		
+		// 검색된 주소가 경기도인지 확인하고 맞으면 데이터를 서버로 보내고 아니면 경고를 표시
 		function is_gyeonggi(result, status){
 			if (status === kakao.maps.services.Status.OK) {
 
