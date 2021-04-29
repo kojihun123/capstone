@@ -50,4 +50,5 @@ html, body{
     width: 400px;
     padding:0 10px;
     box-sizing: border-box;
+    z-index: 10;
 }
