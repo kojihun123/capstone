@@ -7,6 +7,7 @@ html, body{
     height: 100%;
     margin: 0;
     padding: 0;
+    position: fixed;
 }
   
 
@@ -29,10 +30,12 @@ html, body{
     color: black;
 }
 
+
 #map{
+    position: relative;
+    overflow:hidden;
     background-color: gold;
     height: 100%;
-    z-index: 2;
 }
 
 .floating_area{
@@ -41,5 +44,4 @@ html, body{
     width: 400px;
     padding:0 10px;
     box-sizing: border-box;
-    z-index: 1;
 }
