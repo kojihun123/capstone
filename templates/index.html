@@ -7,22 +7,35 @@
 	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
-	<div class="nav">
+
+	<div id="content-container">
+		<div class="nav">
+			<a href="#">Link</a>
+			<a href="#">Link</a>
+			<a href="#">Link</a>
+		</div>
+	
+		<div id="map">123</div>
+		<div class="floating_area">
+			<div>123</div>
+			<div>123</div>
+			<div>123</div>
+			<div>123</div>
+		</div>
+	</div>
+	<!-- <div class="nav">
 		<a href="#">Link</a>
 		<a href="#">Link</a>
 		<a href="#">Link</a>
 	</div>
 
-	<div id="map">123</div>
-
+	<div id="map"></div>
 	<div class="floating_area">
-		<div>123123</div>
-		<div>123123</div>
-		<div>123123</div>
-		<div>123123</div>
-		<div>123123</div>
-	</div>
-
+		<div>123</div>
+		<div>123</div>
+		<div>123</div>
+		<div>123</div>
+	</div> -->
 
 
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -45,7 +58,6 @@
 
         //주소-좌표 변환 객체
         var geocoder = new kakao.maps.services.Geocoder();
-
 
         //주소를 통한 검색
         function adSearch(){
