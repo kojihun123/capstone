@@ -7,7 +7,6 @@
 	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
-
 	<div id="content-container">
 		<div class="nav">
 			<a href="#">로그인</a>
@@ -25,14 +24,39 @@
 			</div>
 			
 			<div id="category"> 
-				<div>
-					<button class="left_button">필터 초기화</button>
-					<button class="right_button">카테고리 목록</button>
+				<div class="left_button">
+					<button id="left_button" style="float:left">필터 초기화</button>
+					<select name="category" id="test">
+						<option value="" selected>모두</option>
+						<option value="일반휴게음식|음식점|음식점업">음식점</option>
+						<option value="음료식품">음료식품</option>
+						<option value="보건위생">미용실, 네일아트, 화장품</option>
+						<option value="문화.취미">문화, 취미</option>
+						<option value="의류">의류</option>
+						<option value="약국|의원|병원">약국, 병원</option>
+						<option value="유통업 영리|GS25">편의점, 마켓</option>
+						<option value="숙박업">숙박업</option>
+						<option value="수리서비스">세탁소, 수리서비스</option>
+						<option value="레저업소|스포츠">레저업소</option>
+						<option value="가구">가구</option>
+						<option value="건축자제">건축자제</option>
+						<option value="직물">직물</option>
+						<option value="신변잡화">신변잡화</option>
+						<option value="전기제품">전기제품</option>
+						<option value="광학제품">사진관, 광학제품</option>
+						<option value="연료판매점">주요소</option>
+						<option value="레져용품">레져용품</option>
+						<option value="서적문구">서적문구</option>
+						<option value="주방용구">주방용구</option>
+						<option value="학원">학원</option>
+						<option value="용역 서비스">용역 서비스</option>
+						<option value="여행">여행</option>
+					</select>
 				</div>
 
-				<div>
-					<button class="left_button">반경표시</button>
-					<button class="right_button">반경 목록</button>
+				<div class="right_button">
+					<button id="right_button">반경 목록</button>
+					<button id="left_button" style="float:right">반경표시</button>
 				</div>
 			</div>
 
@@ -229,6 +253,28 @@
 					alert(error);
 				}
 			})
+		}
+
+
+		/* When the user clicks on the button,
+		toggle between hiding and showing the dropdown content */
+		function myFunction() {
+			document.getElementById("myDropdown").classList.toggle("show");
+		}
+
+		// Close the dropdown menu if the user clicks outside of it
+		window.onclick = function(event) {
+		if (!event.target.matches('.dropbtn')) {
+
+			var dropdowns = document.getElementsByClassName("dropdown-content");
+			var i;
+			for (i = 0; i < dropdowns.length; i++) {
+			var openDropdown = dropdowns[i];
+			if (openDropdown.classList.contains('show')) {
+				openDropdown.classList.remove('show');
+			}
+			}
+		}
 		}
 
 	</script>
