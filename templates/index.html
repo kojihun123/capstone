@@ -10,17 +10,18 @@
 
 	<div id="content-container">
 		<div class="nav">
-			<a href="#">Link</a>
-			<a href="#">Link</a>
-			<a href="#">Link</a>
+			<a href="#">로그인</a>
+			<a href="#">회원가입</a>
+			<a href="#">이용안내</a>
 		</div>
 
 		<div id="map"></div>
 		<div class="floating_area">
 			<div id="search">
-				<input type="text" placeholder="주소검색">
-				<button type="button" id="search_point">현재위치</button>
-				<button id="search_button">검색</button>
+				<input type="text" id="sample5_address" placeholder="주소검색" onclick="sample5_execDaumPostcode()" name="post_addr">
+				<input type="hidden" id="hidden_location" name="hidden_addr">
+				<button type="button" id="search_point" onclick="my_location()">현재위치</button>
+				<button id="search_button" onclick="adSearch()">검색</button>
 			</div>
 			
 			<div id="category"> 
@@ -36,13 +37,13 @@
 			</div>
 
 			<div class="info">
-					
+				가게목록 표시 예정
 			</div>
-			
+
 		</div>
 
 		<div class="bottom_btn_area">
-			<button id="refresh_btn">
+			<button id="refresh_btn" onclick="searchAddrFromCoords(map.getCenter(), is_gyeonggi)">
 				<span>&nbsp;이 지역 검색하기</span>
 			</button>
 		</div>
