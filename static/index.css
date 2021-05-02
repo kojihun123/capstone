@@ -14,6 +14,10 @@ html, body{
     position: fixed;
 }
 
+button{
+    cursor: pointer;
+}
+
 #content-container{
     position: relative;
     height: 100%;
@@ -55,6 +59,14 @@ html, body{
     padding:0 10px;
     box-sizing: border-box;
     z-index: 10;
+}
+
+.bottom_btn_area{
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    z-index: 10;
+    transform: translateX(-50%)
 }
 
 #search{
@@ -101,15 +113,11 @@ html, body{
 
 input{
     font-size:16px;
-    width: 30%;
+    width: 50%;
     padding: 7px;
     border:0px;
     outline: none;
     float: left;
-}
-
-#category{
-    margin-top: 5px;
 }
 
 #category > div:nth-child(1){
@@ -145,3 +153,32 @@ input{
     margin-top: 5px;
 }
 
+.info{
+    position: relative;
+    width: 100%;
+    height: 400px;
+    margin-top: 40px;
+    overflow: scroll;
+    overflow-x: hidden;
+    background-color: #fff;
+    border: 1px solid #cecece;
+    border-radius: 3px;
+    box-shadow: 0 2px 2px rgb(0 0 0 / 8%), 
+            -1px 1px 1px rgb(0 0 0 / 3%), 
+            1px 1px 1px rgb(0 0 0 / 3%);
+
+}
+
+#refresh_btn{
+    font-size: 15px;
+    z-index: 11;
+    padding: 15px;
+    border-radius: 10rem;
+    background: #fff;
+    display:inline-flex;
+    align-items: center;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0/ 20%),
+        0 2px 1px -1px rgb(0 0 0/ 12%), 0 1px 1px 0 rgb(0 0 0/14%);
+    background-color: #fff;
+    justify-content: center;
+}
