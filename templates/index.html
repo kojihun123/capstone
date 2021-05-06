@@ -253,9 +253,10 @@
 
 			if(!currentClass){
 				mybutton.classList.toggle("activate");
+				console.log(current_location);
 
 				if(current_location != null){
-					circle.setPosition(current_location.getLat(), current_location.getLng());
+					circle.setPosition(current_location);
 					circle.setRadius(target.options[target.selectedIndex].value);
 					circle.setMap(map)
 				}
