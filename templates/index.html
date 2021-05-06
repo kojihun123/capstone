@@ -55,7 +55,7 @@
 				</div>
 
 				<div class="right_button">
-					<select name="category" style="float:right">
+					<select name="category" style="float:right" id="circle_width">
 						<option value="100" selected>100m</option>
 						<option value="250" >250m</option>
 						<option value="500" >500m</option>
@@ -110,6 +110,8 @@
 			fillColor: '#00EEEE',
 			fillOpacity: 0.5 
 		});
+
+		var save_location = null;
 
         //주소를 통한 검색
         function adSearch(){
@@ -244,9 +246,10 @@
 		//주어진 범위로 반경을 표시해주는 함수
 		function tests(){
 			var mybutton = document.getElementById('right_button');
+			var target = document.getElementById("circle_width");
 			mybutton.classList.toggle("activate")
-			circle.setPosition(map.getCenter());
-			circle.setRadius(250);
+			circle.setPosition(save_location);
+			circle.setRadius(target.options[target.selectedIndex].value);
 			circle.setMap(map)
 		}
 
@@ -258,6 +261,8 @@
 
 			var target = document.getElementById("test");
 			document.getElementById("hidden_location").value = map.getCenter();
+
+			save_location = document.getElementById("hidden_location").value
 
 			var location = {"parm1" : $('#hidden_location').val(), "parm2" : target.options[target.selectedIndex].value}
 
