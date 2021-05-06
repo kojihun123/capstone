@@ -25,9 +25,9 @@
 			
 			<div id="category"> 
 				<div class="left_button">
-					<button id="left_button" style="float:left">필터 초기화</button>
+					<button id="left_button" style="float:left" onclick="reset()">필터 초기화</button>
 					<select name="category" id="test">
-						<option value="" selected>모두</option>
+						<option value="" selected>카테고리</option>
 						<option value="일반휴게음식|음식점|음식점업">음식점</option>
 						<option value="음료식품">음료식품</option>
 						<option value="보건위생">미용실, 네일아트, 화장품</option>
@@ -56,12 +56,12 @@
 
 				<div class="right_button">
 					<select name="category" style="float:right" id="circle_width">
-						<option value="100" selected>100m</option>
-						<option value="250" >250m</option>
+						<option value="100" >100m</option>
+						<option value="250" selected>250m</option>
 						<option value="500" >500m</option>
 						<option value="1000" >1km</option>
 					</select>
-					<button id="right_button" onclick="tests()">반경 표시</button>
+					<button id="right_button" onclick="draw_circle()">반경 표시</button>
 				</div>
 			</div>
 
@@ -245,7 +245,7 @@
 		}
 
 		//주어진 범위로 반경을 표시해주는 함수
-		function tests(){
+		function draw_circle(){
 			var mybutton = document.getElementById('right_button');
 			var target = document.getElementById("circle_width");
 
@@ -267,6 +267,13 @@
 				circle.setMap(null);
 			}
 		}
+
+		//카테고리를 리셋해주는 간단한 함수
+		function reset(){
+			alert('x')
+			$('#test').val('').prop("selected", true);
+		}
+
 
 
 
