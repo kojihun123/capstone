@@ -55,8 +55,13 @@
 				</div>
 
 				<div class="right_button">
-					<button id="right_button">반경 목록</button>
-					<button id="left_button" style="float:right">반경표시</button>
+					<select name="category" style="float:right">
+						<option value="100" selected>100m</option>
+						<option value="250" >250m</option>
+						<option value="500" >500m</option>
+						<option value="1000" >1km</option>
+					</select>
+					<button id="right_button" onclick="tests()">반경 표시</button>
 				</div>
 			</div>
 
@@ -94,6 +99,17 @@
 
         //주소-좌표 변환 객체
         var geocoder = new kakao.maps.services.Geocoder();
+
+		//지도 위 원
+		var circle = new kakao.maps.Circle({
+			map: map,
+			strokeWeight: 2,
+			strokeColor: '#FF00FF',
+			strokeOpacity: 1.0,
+			strokeStyle: 'solid',
+			fillColor: '#00EEEE',
+			fillOpacity: 0.5 
+		});
 
         //주소를 통한 검색
         function adSearch(){
@@ -225,6 +241,15 @@
 			}
 		}
 
+		//주어진 범위로 반경을 표시해주는 함수
+		function tests(){
+			var mybutton = document.getElementById('right_button');
+			mybutton.classList.toggle("activate")
+			circle.setPosition(map.getCenter());
+			circle.setRadius(250);
+			circle.setMap(map)
+		}
+
 
 
 		//좌표데이터 서버로 보내는 함수
@@ -253,28 +278,6 @@
 					alert(error);
 				}
 			})
-		}
-
-
-		/* When the user clicks on the button,
-		toggle between hiding and showing the dropdown content */
-		function myFunction() {
-			document.getElementById("myDropdown").classList.toggle("show");
-		}
-
-		// Close the dropdown menu if the user clicks outside of it
-		window.onclick = function(event) {
-		if (!event.target.matches('.dropbtn')) {
-
-			var dropdowns = document.getElementsByClassName("dropdown-content");
-			var i;
-			for (i = 0; i < dropdowns.length; i++) {
-			var openDropdown = dropdowns[i];
-			if (openDropdown.classList.contains('show')) {
-				openDropdown.classList.remove('show');
-			}
-			}
-		}
 		}
 
 	</script>
