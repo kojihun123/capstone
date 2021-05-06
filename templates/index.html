@@ -246,12 +246,10 @@
 			var mybutton = document.getElementById('right_button');
 			var target = document.getElementById("circle_width");
 			mybutton.classList.toggle("activate")
-			circle.setPosition(map.getCenter());
+			
+			circle.setPosition(document.getElementById("hidden_location").value);
 			circle.setRadius(target.options[target.selectedIndex].value);
 			circle.setMap(map)
-
-			console.log(document.getElementById("hidden_location").value)
-			console.log(circle.getMap())
 		}
 
 
