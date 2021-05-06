@@ -111,6 +111,9 @@
 			fillOpacity: 0.5 
 		});
 
+		//현제 검색한 지도 중심좌표
+		var current_location = null;
+
         //주소를 통한 검색
         function adSearch(){
             var address = document.getElementById("sample5_address").value;
@@ -245,11 +248,23 @@
 		function tests(){
 			var mybutton = document.getElementById('right_button');
 			var target = document.getElementById("circle_width");
-			mybutton.classList.toggle("activate")
-			
-			circle.setPosition(document.getElementById("hidden_location").value);
-			circle.setRadius(target.options[target.selectedIndex].value);
-			circle.setMap(map)
+
+			const currentClass = mybutton.className;
+
+			if(!currentClass){
+				mybutton.classList.toggle("activate");
+
+				if(current_location != null){
+					circle.setPosition(current_location);
+					circle.setRadius(target.options[target.selectedIndex].value);
+					circle.setMap(map)
+				}
+			}
+
+			else{
+				mybutton.classList.toggle("activate");
+				circle.setMap(null);
+			}
 		}
 
 
@@ -262,6 +277,8 @@
 			document.getElementById("hidden_location").value = map.getCenter();
 
 			var location = {"parm1" : $('#hidden_location').val(), "parm2" : target.options[target.selectedIndex].value}
+
+			current_location = new kakao.maps.LatLng(map.getCenter());
 
 			console.log(location)
 
