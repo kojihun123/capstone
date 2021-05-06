@@ -279,7 +279,7 @@
 
 			var location = {"parm1" : $('#hidden_location').val(), "parm2" : target.options[target.selectedIndex].value}
 
-			current_location = new kakao.maps.LatLng(map.getCenter());
+			current_location = map.getCenter();
 
 			console.log(location)
 
