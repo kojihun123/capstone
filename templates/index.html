@@ -255,7 +255,7 @@
 				mybutton.classList.toggle("activate");
 
 				if(current_location != null){
-					circle.setPosition(current_location);
+					circle.setPosition(current_location.getLat(), current_location.getLng());
 					circle.setRadius(target.options[target.selectedIndex].value);
 					circle.setMap(map)
 				}
