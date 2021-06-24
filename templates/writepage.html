@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+</head>
+<style>
+	body{
+		padding: 90px;
+		background: #EEEEEE;
+		margin: 0 auto;
+ 	 	width: 500px;
+	}
+    a{
+		text-decoration: none;
+        appearance: auto;
+    	text-rendering: auto;
+    	color: #000000;
+    	letter-spacing: normal;
+    	word-spacing: normal;
+    	text-transform: none;
+    	text-indent: 0px;
+    	text-shadow: none;
+    	display: inline-block;
+    	text-align: center;
+    	align-items: flex-start;
+    	cursor: default;
+    	background-color: #efefef;
+    	box-sizing: border-box;
+    	margin: 0em;
+    	font: 400 13.3333px Arial;
+    	padding: 2px 7px;
+		border-radius: 2px;
+    	border-width: 1px;
+    	border-style: outset;
+    	border-color: rgb(118, 118, 118);
+    	border-image: initial;
+		box-shadow: none;
+    }
+	table{
+		border-collapse: separate;
+  		border-spacing: 0 20px;
+	}
+	span{
+		margin-right: 5px;
+	}
+	.buttons{
+		width: 500px;
+	}
+	.btn{
+		float: right;
+		margin-top: 5px;
+		margin-left: 5px;
+	}
+</style>
+<body>
+	{{form.csrf_token}}
+	<h1>글쓰기</h1>
+	<hr style="margin-left: 0px; width: 500px;"/>
+	<form name="frm" action="insert" method="post">
+		<table class="tbl" width=500>
+			<tr>
+				<td>작성자</td>
+				{{form.userid(id="writerform", type="hidden", class="form-control", value=userid)}}
+				<td><input id="writer" type="text" style="width: 100px;" disabled></td>
+			</tr>
+			<tr>
+				<td width=100>가게이름</td>
+				<td>{{form.market(id="market", class="form-control", value=market, style="width: 400px;")}}</td>
+			</tr>
+			<tr>
+				<td width=100>주소</td>
+				<td>{{form.address(id="address", class="form-control", value=address, style="width: 400px;")}}</td>
+			</tr>
+			<tr>
+				<td>별점</td>
+				<td>
+					<span><input type="radio" name="chk_info" value="5">5</span>
+					<span><input type="radio" name="chk_info" value="4">4</span>
+					<span><input type="radio" name="chk_info" value="3">3</span>
+					<span><input type="radio" name="chk_info" value="2">2</span>
+					<span><input type="radio" name="chk_info" value="1">1</span>
+				</td>
+			</tr>
+			<tr>
+				<td width=100>내용</td>
+				<td><textarea id="content" rows="5" name="content" style="resize: none; width: 400px;"></textarea></td>
+			</tr>
+		</table>
+	</form>
+	<div class="buttons">
+		<button type="button" id="save" class="btn btn-primary">저장</button>
+	{%if entertype == 'allsearch'%}
+		<a class="btn btn-primary" href="{{url_for('allsearch')}}">목록</a>
+	{%endif%}
+	{%if entertype == 'indexbutton'%}
+		<a class="btn btn-primary" href="{{url_for('indexbutton', market=market, address=address)}}">목록</a>
+	{%endif%}	
+	{%if entertype == 'searchcontents'%}
+		<a class="btn btn-primary" href="{{url_for('searchcontents', searchtype=searchtype, searchcontents=searchcontents)}}">목록</a>
+	{%endif%}
+	</div>
+</body>
+<script>
+	var writer = document.getElementById("writerform").value
+	document.getElementById("writer").value = writer
+	var csrftoken = "{{ csrf_token() }}";
+
+	function refreshMemList(){
+		location.reload();
+	}	
+	function csrfSafeMethod(method) {
+	// these HTTP methods do not require CSRF protection
+	  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+	}	
+	$.ajaxSetup({
+	    beforeSend: function(xhr, settings) {
+	        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+	            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+	        }
+	    }
+	});	
+
+	$(function() {
+	  $('#save').click(function(){
+		  ajaxCall();
+		});
+	});	
+
+    function ajaxCall(){
+		var chk_radio = document.getElementsByName('chk_info');
+		var sel_type = null;
+		for(var i=0;i<chk_radio.length;i++){
+			if(chk_radio[i].checked == true){ 
+				sel_type = chk_radio[i].value;
+			}
+		}
+
+		if(document.getElementById("market").value == ""){
+			alert("가게이름을 입력해주세요."); 
+			return false;
+		}
+
+		if(document.getElementById("address").value == ""){
+			alert("주소를 입력해주세요."); 
+			return false;
+		}
+
+		if(sel_type == null){
+            alert("점수를 평가해주세요."); 
+			return false;
+		}
+
+
+		var market = document.querySelector('#market').value
+		var content = document.querySelector('#content').value
+		var writer = document.querySelector('#writer').value
+		//var point = document.querySelector('#point').value
+		var address = document.querySelector('#address').value
+		var postdata = {
+	  		'content' : content,
+	  		'writer' : writer,
+	  		'point' : sel_type,
+	  		'market' : market,
+			'address' : address  
+      	}
+      	$.ajax({
+      	  async : false,
+      	  type : 'POST',
+      	  data :  JSON.stringify(postdata), 
+      	  url : '{{url_for("writepage")}}',
+      	  dataType : 'JSON',
+      	  contentType: "application/json; charset=utf-8",
+      	  success: function(response){
+			window.location.href = response.redirect
+      	  },
+      	});
+  	}
+</script>
+</html>

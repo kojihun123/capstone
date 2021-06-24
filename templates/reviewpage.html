@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no' />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" href="css/bootstrap.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+<style>
+	body {
+	    padding: 20px;
+	    font-family: Gulim;
+	}
+	#front{
+		margin-bottom: 10px;
+		overflow: hidden;
+	}
+	#searchtype, #search {
+        float: left;
+    }
+	#searchtype {
+		height: 30px;
+	}
+	.name{
+		overflow: hidden; 
+    	max-width: 15em;
+  		text-overflow: ellipsis; 
+  		white-space  : nowrap;    
+	}
+	.address{
+		overflow: hidden; 
+    	max-width: 10em;
+  		text-overflow: ellipsis; 
+  		white-space  : nowrap;    
+	}
+	.trselect:hover{
+		color:chocolate
+	}
+</style>
+<body>
+	{{form.csrf_token}}
+	{{form.userid(id="userid", type="hidden", value=userid)}}
+	{{form.type(id="type", type="hidden", value=type)}}
+	<div id="front">
+		<select id="searchtype">
+			<option>가게이름</option>
+    	    <option>주소</option>
+    	    <option>작성자</option>
+    	</select>
+		<input type="text" id="search" placeholder="검색">
+		<button type="button" id="searchbutton">검색</button>
+	</div>
+
+	{% if tot_count > 0 %}
+    <table class="table">
+		<tr>
+			<!--<th>글번호</th> -->
+			<th>가게이름</th>
+			<th>주소</th>
+			<th>내용</th>
+			<th>별점</th>
+			<th>작성자</th>
+			<th>게시일/수정일</th>
+		</tr>
+    
+		{%for continent in datas%}
+        <tr class="trselect">
+			<!-- <td>{{ loop.index + (page - 1) * limit }}</td> -->
+			<td class="name">{{ continent['market'] }}</td>
+			<td class="address">{{ continent['address'] }}</td>
+			<td class="name">{{ continent['content'] }}</td>
+			<td>{{ continent['point'] }}</td>
+			<td class="name">{{ continent['writer'] }}</td>
+			<td>{{ continent['Date'] }}</td>
+		</tr>
+        {%endfor%}
+	</table>
+
+	{% if block_start - 1 > 0 %}
+		{% if type == 'allsearch' %}
+			<a href="{{url_for('allsearch', page=block_start - 1)}}">[이전]</a>
+		{% if type == 'searchcontents' %}
+    		<a href="{{url_for('searchcontents', searchtype=searchtype, searchcontents=searchcontents, page=block_start - 1)}}">[이전]</a>
+		{% if type == 'indexbutton' %}
+    		<a href="{{url_for('indexbutton', market=market, address=address, page=block_start - 1)}}">[이전]</a>
+		{% endif %}	
+		{% endif %}
+		{% endif %}
+	{% endif %}
+	
+	{% for i in range(block_start, block_end + 1)%}
+	    <!-- 데이터가 존재하지 않는 페이지는 화면에 나타내지 않기 위한 조건문 -->
+	    {% if i > last_page_num %}
+	
+	    {% else %}
+	        {% if i == page %}
+	            <b>{{ i }}</b>
+	        {% else %}
+				{% if type == 'allsearch' %}
+					<a href="{{url_for('allsearch', page=i)}}">{{ i }}</a>
+				{% endif %}
+				{% if type == 'searchcontents' %}
+    				<a href="{{url_for('searchcontents', searchtype=searchtype, searchcontents=searchcontents, page=i)}}">{{ i }}</a>
+				{% endif %}
+				{% if type == 'indexbutton' %}
+    				<a href="{{url_for('indexbutton', market=market, address=address, page=i)}}">{{ i }}</a>
+				{% endif %}
+	        {% endif %}
+	    {% endif %}
+	{% endfor %}
+	
+	{% if last_page_num > block_end %}
+		{% if type == 'allsearch' %}
+			<a href="{{url_for('allsearch', page=block_end + 1)}}">[다음]</a>
+		{% endif %}
+		{% if type == 'searchcontents' %}
+			<a href="{{url_for('searchcontents', searchtype=searchtype, searchcontents=searchcontents, page=block_end + 1)}}">[다음]</a>
+		{% endif %}
+		{% if type == 'indexbutton' %}
+			<a href="{{url_for('indexbutton', market=market, address=address, page=block_end + 1)}}">[다음]</a>
+		{% endif %}
+	{% endif %}
+	{% else %}
+	<h3>데이터가 존재하지 않습니다.</h3>
+	{% endif %}
+	<button class="reviewwrite" type="button">리뷰작성</button>
+</body>
+<script src="js/jquery-3.1.1.js"></script>
+<script src="js/bootstrap.js"></script>
+<script>
+	var csrftoken = "{{ csrf_token() }}";
+
+	function refreshMemList(){
+		location.reload();
+	}	
+	function csrfSafeMethod(method) {
+	// these HTTP methods do not require CSRF protection
+	  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+	}	
+	$.ajaxSetup({
+		beforeSend: function(xhr, settings) {
+			if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+				xhr.setRequestHeader("X-CSRFToken", csrftoken);
+			}
+		}
+	});	
+	
+	$(".reviewwrite").click(function(e){
+		if (document.getElementById("userid").value == "None"){
+			if (!confirm("로그인이 필요한 서비스입니다 로그인 하시겠습니까?")) {
+				//취소 클릭시
+			} else {
+				window.location.href = "http://localhost:5001/reviewpage/login"
+    		}
+		} else {
+			window.location.href = "http://localhost:5001/writepage"
+		}
+	})
+
+	$(".trselect").click(function(){ 	
+		var tdArr = new Array();	// 배열 선언
+		
+		// 현재 클릭된 Row(<tr>)
+		var tr = $(this);
+		var td = tr.children();
+			
+		// 반복문을 이용해서 배열에 값을 담아 사용할 수 도 있다.
+		td.each(function(i){
+			tdArr.push(td.eq(i).text());
+		});
+
+	 	var market = td.eq(0).text();
+		var address = td.eq(1).text();
+		var contents = td.eq(2).text();
+		var point = td.eq(3).text();
+		var writer = td.eq(4).text();
+
+		var content = {
+            'market': market,
+			'address':address,
+			'contents': contents,
+			'point': point,
+			'writer': writer,
+		}
+	
+		$.ajax({
+			type: 'POST',
+			url: '{{url_for("reviewinformation")}}',
+			data: JSON.stringify(content),
+			dataType : 'JSON',
+			contentType: "application/json",
+			success: function(response) {
+            	window.location.href = response.redirect
+        	}
+		})
+	});
+
+	$("#searchbutton").click(function(){
+		if(document.getElementById("search").value == ""){
+			window.location.href = "http://localhost:5001/reviewpage";
+		} else {
+			switch($("#searchtype option:selected").val()){
+				case '작성자':
+					var searchtype = 'writer';
+				break
+				case '주소':
+					var searchtype = 'address';
+				break
+				case '가게이름':
+					var searchtype = 'market';
+				break
+			}
+			var searchcontents = document.getElementById("search").value;
+			var content = {
+            	'searchtype': searchtype,
+				'searchcontents': searchcontents
+			}
+			$.ajax({
+				type: 'POST',
+				url: '{{url_for("filledsearch")}}',
+				data: JSON.stringify(content),
+				dataType : 'JSON',
+				contentType: "application/json",
+				success: function(response) {
+            		window.location.href = response.redirect
+        		}
+			})
+		}
+	})
+	
+		
+</script>
+</html>

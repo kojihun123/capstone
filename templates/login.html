@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset='utf-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no' />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</head>
+<style>
+  .error{
+    color:#ff1616;
+    width: 465px;
+  }
+  :root{
+  	--body-background-color: #f5f6f7;
+  	--font-color: #4e4e4e;
+  	--border-gray-color : #dadada;
+  	--naver-green-color: #04c75a;
+  	--naver-green-border-color: #06b350;
+  }
+  *{
+  	margin:0;
+  	padding:0;
+  }
+  body{
+  	background:var(--body-background-color);
+  }
+  .logo-wrap{
+  	padding-top: 55px;
+  	display: flex;	
+  	flex-direction: column;
+  	align-items: center;
+  }
+  .login-input-section-wrap{
+  	padding-top: 60px;
+  	display: flex;
+  	flex-direction: column;
+    justify-content: flex-end;
+  	align-items: center;
+  }
+  .password-wrap{
+  	margin-top: 13px;
+  }
+  .login-input-wrap{
+		width: 465px;
+		height :48px;
+		border: solid 1px var(	--border-gray-color );
+		background: white;
+	}
+  .login-input-wrap input{
+  	border: none;
+  	width: 430px;
+  	margin-top: 10px;
+  	font-size: 14px;
+  	margin-left: 10px;
+  	height:30px;
+  }
+  .comment{
+  	width: 465px;
+  	height: 30px;
+  	line-height: 30px;
+  	margin-top: 13px;
+  	text-align: center;
+  }
+  .login-button-wrap {
+  	padding-top: 13px;
+  }
+  .login-button-wrap button{
+  	width: 465px;
+  	height: 48px;
+  	font-size: 18px;
+  	background: pink;
+  	border: solid 1px pink;
+  	color: white;
+  }
+  .banner{
+    margin-top: 40px;
+    text-align: center;
+    margin-bottom: 60px;
+  }
+</style>
+<body>
+  <div class ="container">
+
+    <div class="col-12">
+      <br><br>
+      <form method="POST">
+        {{form.csrf_token}}
+        <div class="login-input-section-wrap">
+          <h1 class="banner">로그인</h1>
+          <div class="login-input-wrap">
+            {{form.userid(id="idinput", class="form-control", placeholder="아이디")}}
+          </div>
+          <div id="iderror" class="error"></div>
+          <div class="login-input-wrap password-wrap">
+            {{form.password(id="passwdinput", class="form-control", placeholder="비밀번호")}}
+          </div>
+          <div id="passwderror" class="error"></div>
+          <div id="error" class="error">{%if form.password.errors%}{{form.password.errors.0}}{%endif%}</div>
+          <div class="comment">
+            <p>계정이 없으십니까? <a href="http://localhost:5001/register">회원가입하기</a></p>
+          </div>
+          <div class="login-button-wrap">
+            <button type="submit" class="btn btn-primary">로그인</button>
+          </div>  
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+
+<script>
+    function onload() {
+      document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('invalid', (e) => {
+          if(document.querySelector('#idinput').value == "" && document.querySelector('#passwdinput').value == ""){
+            document.querySelector('#iderror').textContent = '아이디를 입력해주세요'
+            document.querySelector('#passwderror').textContent = ''
+            document.querySelector('#error').textContent = ''
+          } else if(document.querySelector('#passwdinput').value == ""){ 
+            document.querySelector('#passwderror').textContent = '비밀번호를 입력해주세요'
+            document.querySelector('#iderror').textContent = ''
+            document.querySelector('#error').textContent = ''
+          } else if(document.querySelector('#idinput').value == ""){
+            document.querySelector('#iderror').textContent = '아이디를 입력해주세요'
+            document.querySelector('#passwderror').textContent = ''
+            document.querySelector('#error').textContent = ''
+          } else{
+            document.querySelector('#iderror').textContent = ''
+            document.querySelector('#passwderror').textContent = ''
+          }
+          e.preventDefault();
+        })
+
+        input.addEventListener('input', () => {
+          if (document.forms[0].classList.contains('was-validated')) {
+            input.reportValidity()
+          }
+        })
+      })
+    }
+    document.addEventListener('DOMContentLoaded', onload)
+</script>
+</html>

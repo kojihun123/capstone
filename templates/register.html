@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset='utf-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no' />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+<style>
+    .error{
+      color: crimson;
+    }
+
+    #dubblecheck, #addresscheck{
+      margin-top: 5px;
+    }
+</style>
+<body>
+    <div class="container">
+        <div class="row mt-5">
+            <h1>회원가입</h1>
+        </div>
+        <div class="row mt-5">
+            <div class="col-12">
+                <form method="POST">
+                    {{form.csrf_token}} <!--csft활성화-->
+                      <div class="form-group">
+                          {{form.userid.label("아이디")}}
+                          {{form.userid(type="text", id="idinput", class="form-control", placeholder="아이디")}}
+                          <button type="button" id="dubblecheck" class="btn btn-primary">중복확인</button>
+                          <span id="iderror" class="error"></span>
+                      </div>    
+                    <div class="form-group">
+                        {{form.email.label("이메일")}}
+                        {{form.email(id="emailinput", class="form-control", placeholder="이메일")}}
+                        <button type="button" id="addresscheck" class="btn btn-primary">중복확인</button>
+                        <span id="emailerror" class="error">
+                          {%if form.email.errors%} 
+                          {% for error in form.email.errors %}
+                          {{ error }}
+                          {% endfor %}
+                          {%endif%}
+                      </span>
+                        <span id="emailempty" class="error"></span>
+                    </div>
+                    <div class="form-group">
+                        {{form.password.label("비밀번호")}}
+                        {{form.password(id="pwinput", class="form-control", placeholder="비밀번호")}}
+                        <span id="pwerror" class="error"></span>
+                    </div>
+                    <div class="form-group">
+                        {{form.password_2.label("비밀번호 확인")}}
+                        {{form.password_2(id="pwcheckinput", class="form-control", placeholder="비밀번호 확인")}}
+                        <span id="pwcheckerror" class="error">
+                            {%if form.password.errors%} 
+                            {% for error in form.password.errors %}
+                            {{ error }}
+                            {% endfor %}
+                            {%endif%}
+                        </span>
+                    </div>
+                    <button type="submit" id="submit1" class="btn btn-primary">제출</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+  var csrftoken = "{{ csrf_token() }}";
+
+  function refreshMemList(){
+		location.reload();
+	}
+
+  function csrfSafeMethod(method) {
+  // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+  }
+
+  $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+          if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+              xhr.setRequestHeader("X-CSRFToken", csrftoken);
+          }
+      }
+  });
+
+  $(function() {
+    $('#dubblecheck').click(function(){
+  	  ajaxCall();
+  	});
+  });
+
+    function ajaxCall(){
+      $('#iderror').text("");
+      var userid = document.querySelector('#idinput').value
+        var postdata = {
+                'id':userid
+            }
+      $.ajax({
+        async : false,
+        type : 'POST',
+        data :  JSON.stringify(postdata), 
+        url : '{{url_for("idcheck")}}',
+        dataType : 'JSON',
+        contentType: "application/json; charset=utf-8",
+        success: function(data){
+          $('#iderror').text(data.result2);
+        }
+      });
+  	}
+
+    $(function() {
+    $('#addresscheck').click(function(){
+  	  ajaxCall1();
+  	});
+  });
+
+    function ajaxCall1(){
+      $('#emailempty').text("");
+      var useraddress = document.querySelector('#emailinput').value
+        var postdata = {
+          'address':useraddress
+        }
+      $.ajax({
+        async : false,
+        type : 'POST',
+        data :  JSON.stringify(postdata), 
+        url : '{{url_for("addresscheck")}}',
+        dataType : 'JSON',
+        contentType: "application/json; charset=utf-8",
+        success: function(data){
+          $('#emailerror').text(data.result2);
+        },
+      });
+  	}
+
+  
+  $('#submit1').click(function(e){
+    if((document.getElementById('idinput').value != "" &&
+      document.getElementById('emailinput').value != "" &&
+      document.getElementById('pwinput').value != "" &&
+      document.getElementById('pwcheckinput').value != "") &&
+    (document.getElementById('iderror').textContent != '사용가능한 아이디입니다' || 
+    document.getElementById('emailerror').textContent != '사용가능한 이메일입니다')){
+      e.preventDefault();
+      document.querySelector('#pwcheckerror').textContent = ''
+      alert("아이디및 이메일 중복여부를 확인해주세요")
+    } else {
+      $('#submit1').click()
+      $('#submit1').unbind()
+    }
+
+    if(document.querySelector('#idinput').value == ""){
+      document.querySelector('#iderror').textContent = '아이디를 입력해주세요'
+      document.querySelector('#emailempty').textContent = ''
+      document.querySelector('#pwerror').textContent = ''
+      document.querySelector('#pwcheckerror').textContent = ''
+    } else if(document.querySelector('#emailinput').value == ""){
+      document.querySelector('#emailempty').textContent = '이메일을 입력해주세요'
+      document.querySelector('#emailerror').textContent = ''
+      document.querySelector('#iderror').textContent = ''
+      document.querySelector('#pwerror').textContent = ''
+      document.querySelector('#pwcheckerror').textContent = ''
+    } else if(document.querySelector('#pwinput').value == ""){ 
+      document.querySelector('#iderror').textContent = ''
+      document.querySelector('#pwerror').textContent = '비밀번호를 입력해주세요'
+      document.querySelector('#emailerror').textContent = ''
+      document.querySelector('#emailempty').textContent = ''
+      document.querySelector('#pwcheckerror').textContent = ''
+    } else if(document.querySelector('#pwcheckinput').value == ""){
+      document.querySelector('#iderror').textContent = ''
+      document.querySelector('#pwcheckerror').textContent = '같은 비밀번호를 입력해주세요' 
+      document.querySelector('#emailempty').textContent = '' 
+      document.querySelector('#pwerror').textContent = ''
+    }
+    e.preventDefault();
+  });
+
+
+</script>
+</html>

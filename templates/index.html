@@ -6,11 +6,74 @@
     <link rel="stylesheet" href="{{url_for('static',filename='index.css')}}">
 	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
+<style>
+	#hiddenbutton{
+    	display: None;
+	}
+	.pointandreview{
+		margin-top: 3px;
+	}
+	.starimage{
+		width: 20px;
+        height: 20px;
+		background-image: url("https://i.esdrop.com/d/l5u1qfrqyw0y/4UVh5w2DcX.png");
+		background-repeat: no-repeat;
+    	background-size: 20px 20px;
+		margin-right: 3px;
+		float : left
+	}
+	.point{
+		margin-right: 10px;
+		display: inline;
+	}
+	.review{
+		display: inline;
+	}
+	.overlaybox {
+		position: relative;
+		width: 180px;
+		height: 46px;
+		text-align: left;
+		overflow: hidden;
+		font-size: 10px;
+		font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;	
+	}
+	.overlaybox * {padding: 0;margin: 0;}
+    .infomation .title {overflow: hidden; text-overflow: ellipsis; display:block; padding: 0px 0px 0px 5px ; height: 14px; background: #eee; border-bottom: 1px solid #ddd;font-size: 10px;font-weight: bold; box-sizing: border-box;}
+    .infomation .body {position: relative;overflow: hidden;}
+    .infomation .desc {position: relative;height: 33px; padding: 1px 0px 0px 5px}
+    .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+    .desc .jibun {font-size: 11px; text-overflow: ellipsis; margin-bottom: 1px; font-size: 10px;}
+    .infomation .link {color: #5085BB;}
+	.markerstarimage{
+		width: 13px;
+        height: 13px;
+		background-image: url("https://i.esdrop.com/d/l5u1qfrqyw0y/4UVh5w2DcX.png");
+		background-repeat: no-repeat;
+    	background-size: 13px 13px;
+		margin-right: 3px;
+		float : left
+	}
+	.marketpoint{
+		display: inline;
+		margin-right: 5px;
+	}
+	.reviewpage{
+		height: 14px;
+		display: inline;
+		font-size: 7px;
+		line-height: 7px;
+	}
+</style>
 <body>
 	<div id="content-container">
 		<div class="nav">
-			<a href="#">로그인</a>
-			<a href="#">회원가입</a>
+			{%if userid%}
+			<a>{{userid}}님 안녕하세요! <a href="/logout">로그아웃</a></a>  
+			{%else%}
+			<a href="http://localhost:5001/login">로그인</a>
+			{%endif%}
+			<a href="http://localhost:5001/register">회원가입</a>
 			<a href="#">이용안내</a>
 		</div>
 
@@ -64,9 +127,9 @@
 					<button id="right_button" onclick="draw_circle()">반경 표시</button>
 				</div>
 			</div>
+			<button class="btn btn-primary" id="hiddenbutton">제출</button>
+			<div class="info" id="cell">		
 
-			<div class="info">
-				가게목록 표시 예정
 			</div>
 
 		</div>
@@ -80,12 +143,32 @@
 
 
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8b57e99d2686f4c3a48f76c342a5f3bd&libraries=services"></script>
-	<script>
+	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c9551483b0079a351af12a1032f73173&libraries=services"></script>
+	<script type="text/javascript">
+		var csrftoken = "{{ csrf_token() }}";
+
+		function refreshMemList(){
+			  location.reload();
+		  }
+	  
+		function csrfSafeMethod(method) {
+		// these HTTP methods do not require CSRF protection
+		  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+		}
+		
+		$.ajaxSetup({
+			beforeSend: function(xhr, settings) {
+				if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+					xhr.setRequestHeader("X-CSRFToken", csrftoken);
+				}
+			}
+		});
 
 		//마커 객체 보유 배열
 		var markers = [];
-
+		var isClick = 'NonClick'
+		var marketaddress = "Null"
+		var marketname = "Null"
 
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		    mapOption = {
@@ -149,37 +232,234 @@
 			}
 		}
 
-
-		// 지도에 마커를 표시하고 리스너 추가 및 배열에 push하는 함수
 		function displayMarker(mydata) {
+			var arr = [];
+			var arr1 = [];
+			var arr2 = [];
+			var check1 = [];
+			var a = '0';
+
+			for(key in mydata){
+				var marketaddress = mydata[key]['소재지지번주소']
+				var marketname = mydata[key]['상호명']
+				var markettype = mydata[key]['업종명(종목명)']
+				var marketpoint = mydata[key]['point']
+				arr[key] ='<div class="overlaybox">' + 
+							'    <div class="infomation">' + 
+							'        <div class="title">' + 
+										marketname + 
+							'        </div>' + 
+							'        <div class="body">' + 
+							'            <div class="desc">' + 
+							'                <div>' +
+							'                	<div class="markerstarimage"></div>' +
+							'                	<div class="marketpoint">' + marketpoint + '/5'+ '</div>' +
+							'					<button class="reviewpage">리뷰하기</button>' +
+							'                </div>' +									
+							'                <div class="ellipsis" style="display: none;">' + marketaddress + '</div>' + 
+							'                <div class="jibun">' + markettype + '</div>' + 
+							'            </div>' + 
+							'        </div>' + 
+							'    </div>' +    
+							'</div>'
+			}
+			
+			for(a in mydata){
+				var check = "NO"
+				var num = 0
+				for(key in mydata){
+					key = Number(key)
+					var latlng1 = new kakao.maps.LatLng(mydata[a]['위도'] ,mydata[a]['경도'])
+					var latlng2 = new kakao.maps.LatLng(mydata[key]['위도'] ,mydata[key]['경도'])
+
+					if(a != key && latlng1.equals(latlng2)){
+						num += 1
+						if(num >= 6){
+							arr2[a] = arr2[a] + arr[key]
+							check1[a] = num
+						} else{
+							if(num >= 2){
+								arr1[a] = arr1[a] + arr[key]
+								arr2[a] = arr1[a]
+								check1[a] = num
+							} else{
+								arr1[a] = arr[a] + arr[key]
+								check1[a] = num
+							}
+						}
+						check = "YES"
+					}
+				}
+				if(check == "NO"){
+					arr1[a] = arr[a]
+					check1[a] = num
+				}	
+			}
 
 			for(key in mydata){
 				var marker = new kakao.maps.Marker({
 					map: map,
-					position: new kakao.maps.LatLng(mydata[key]['위도'] ,mydata[key]['경도']) 
+					position: new kakao.maps.LatLng(mydata[key]['위도'] ,mydata[key]['경도']),
+					clickable: true 
 				});
 
+				iwRemoveable = true; 
 				var infowindow = new kakao.maps.InfoWindow({
-					content: mydata[key]['상호명']
+					content: arr1[key],
+					removable : iwRemoveable
 				});
-
-				kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow))
-				kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
 				
+				if(check1[key] >= 6){
+					kakao.maps.event.addListener(marker, 'click', makeClickListener1(arr2[key]))
+				} else {
+					kakao.maps.event.addListener(marker, 'click', makeClickListener(map, marker, infowindow))
+				}
+				kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow))
+				kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow))
+
 				markers.push(marker);
+			}
+
+		}
+
+		function makeClickListener1(item){
+			return function() {
+				isClick = 'NonClick'
+				var content = {
+            	    'list1': item,
+				}
+				$.ajax({
+					type: 'POST',
+					url: '{{url_for("list1")}}',
+					data: JSON.stringify(content),
+					dataType : 'JSON',
+					contentType: "application/json",
+					success: function(response) {
+            			window.open(response.redirect, "", "width=200, height=600")
+        			}
+				})
+			}
+		}
+
+		function makeClickListener(map, marker, infowindow) {
+			return function() {
+				isClick = 'Click'
+				infowindow.open(map, marker);
+				$(".reviewpage").click(function(){
+					var index1 = ($(".reviewpage").index(this));
+					var market1 = document.getElementsByClassName("title")[index1].textContent;
+					var address1 = document.getElementsByClassName("ellipsis")[index1].textContent;
+					market1 = market1.trim()
+					var content = {
+            	    	'market': market1,
+						'address': address1
+					}
+					$.ajax({
+						type: 'POST',
+						url: '{{url_for("genre_picks")}}',
+						data: JSON.stringify(content),
+						dataType : 'JSON',
+						contentType: "application/json",
+						success: function(response) {
+            				window.open(response.redirect, "", "width=820, height=660")
+        				}
+					})
+				})
 			}
 		}
 
 		function makeOverListener(map, marker, infowindow) {
 			return function() {
+				isClick = 'NonClick'
 				infowindow.open(map, marker);
 			};
 		}
 
 		function makeOutListener(infowindow) {
 			return function() {
+				if(isClick == 'Click') {return;}
 				infowindow.close();
 			};
+		}
+
+		//floating area의 info 부분에 내용을 추가하는 함수
+		function displayinfo(mydata){
+
+			let info = document.getElementById("cell");
+			while (info.hasChildNodes()){
+				info.removeChild(info.firstChild);
+			}
+
+			for(key in mydata){
+				var life = document.createElement('div');
+				life.className="info_list";
+
+				var life2 = document.createElement('h5');
+				life2.className="title";
+				life2.textContent= mydata[key]['상호명'];
+
+				var life4 = document.createElement('div');
+				life4.className="box";
+
+				var life5 = document.createElement('span');
+				life5.className="desc";
+				life5.textContent= "카테고리: " + mydata[key]['업종명(종목명)'];
+
+				var life6 = document.createElement('span');
+				life6.className="desc";
+				life6.textContent="전화번호: 정보없음"
+
+				var life7 = document.createElement('div');
+				life7.className="address";
+				life7.textContent= mydata[key]['소재지지번주소'];
+				
+				var lifereview = document.createElement('div');
+				lifereview.className = "pointandreview"
+						
+				var life8 = document.createElement('div');
+				life8.className = "starimage"
+				
+				var life9 = document.createElement('div');
+				life9.className = "point"
+				life9.textContent = mydata[key]['point'] + "/5";
+				
+				var life10 = document.createElement('button');
+				life10.className = "review";
+				life10.textContent = "리뷰하기";
+
+				/*var index = $('a').index();*/
+				/*document.getElementsByClassName("info_list").getElementsByClassName("review")*/
+				document.querySelector("#content-container > div.floating_area > div.info").append(life);
+				life4.appendChild(life5);
+				life4.appendChild(life6);
+				lifereview.appendChild(life8);
+				lifereview.appendChild(life9);
+				lifereview.appendChild(life10);
+				life.appendChild(life2);
+				life.appendChild(lifereview);
+				life.appendChild(life4);
+				life.appendChild(life7);
+			}
+
+			$(".info_list button").click(function(){
+				var index = ($(".info_list button").index(this));
+				var market = mydata[index]['상호명']
+				var address = mydata[index]['소재지지번주소'];
+				var content = {
+                	'market': market,
+					'address': address
+				}
+				$.ajax({
+					type: 'POST',
+					url: '{{url_for("genre_picks")}}',
+					data: JSON.stringify(content),
+					dataType : 'JSON',
+					contentType: "application/json",
+					success: function(response) {
+            			window.open(response.redirect, "", "width=820, height=660")
+        			}
+				})
+			})
 		}
 
 		// 배열에 추가된 마커들을 지도에서 삭제하는 함수
@@ -214,7 +494,6 @@
 					//state는 우편번호 찾기 화면이 어떻게 닫혔는지에 대한 상태 변수 이며, 상세 설명은 아래 목록에서 확인하실 수 있습니다.
 					if(state === 'FORCE_CLOSE'){
 						//사용자가 브라우저 닫기 버튼을 통해 팝업창을 닫았을 경우, 실행될 코드를 작성하는 부분입니다.
-						alert('x')
 					}
 					 else if(state === 'COMPLETE_CLOSE'){
 
@@ -270,7 +549,6 @@
 
 		//카테고리를 리셋해주는 간단한 함수
 		function reset(){
-			alert('x')
 			$('#test').val('').prop("selected", true);
 		}
 
@@ -285,20 +563,18 @@
 			document.getElementById("hidden_location").value = map.getCenter();
 
 			var location = {"parm1" : $('#hidden_location').val(), "parm2" : target.options[target.selectedIndex].value}
-
+			
 			current_location = map.getCenter();
-
-			console.log(location)
 
 			$.ajax({
 				type: 'POST',
-				url: 'https://young-hollows-30103.herokuapp.com/ajax',
+				url: '{{url_for("ajax")}}',
 				data: JSON.stringify(location),
 				dataType : 'JSON',
 				contentType: "application/json",
 				success: function(data){
-					alert('성공!')
 					displayMarker(data.mydata)
+					displayinfo(data.mydata)
 				},
 				error: function(request, status, error){
 					alert('ajax 통신 실패')
